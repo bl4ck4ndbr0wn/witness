@@ -29,7 +29,7 @@ public:
 
   [[eosio::action]]
   void proof(name claimant, uint64_t claim_id, string ipfs_path){
-
+    // TODO - emplace
   }
 private:
   
