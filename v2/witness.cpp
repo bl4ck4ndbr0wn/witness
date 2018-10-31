@@ -12,12 +12,13 @@ public:
   witness(name receiver, name code,  datastream<const char*> ds): contract(receiver, code, ds), _claimst(receiver, code.value), _attestationst(receiver, code.value), _proofst(receiver, code.value) {}
 
   [[eosio::action]]
-  void claim(name claimant, string claim, string category, vector<name> witnesses) {
+  void claim(name claimant, string content, string category, vector<name> witnesses) {
     require_auth( claimant );
 
     _claimst.emplace(claimant, [&]( auto& claim ) {
         claim.id = _claimst.available_primary_key();
         claim.claimant = claimant;
+        claim.claim = content;
         claim.category = category;
         claim.witnesses = witnesses;
 
@@ -35,7 +36,6 @@ public:
          attestation.anecdote = anecdote;
 
          // TODO - require_recipient claim.claimant? Appreciate witness (Transfer)?
-         // TODO - index with claimId
      });
   }
 
