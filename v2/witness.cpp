@@ -9,15 +9,14 @@ class [[eosio::contract]] witness : public eosio::contract {
 public:
   using contract::contract;
   
-  witness(name receiver, name code,  datastream<const char*> ds): contract(receiver, code, ds) {}
+  witness(name receiver, name code,  datastream<const char*> ds): contract(receiver, code, ds), _claimst(receiver, code.value), _attestationst(receiver, code.value), _proofst(receiver, code.value) {}
 
   [[eosio::action]]
   void claim(name claimant, string claim, string category, vector<name> witnesses) {
     require_auth( claimant );
 
-    claims_index claims(_code, _code.value);
-    claims.emplace(claimant, [&]( auto& claim ) {
-        claim.id = claims.available_primary_key();
+    _claimst.emplace(claimant, [&]( auto& claim ) {
+        claim.id = _claimst.available_primary_key();
         claim.claimant = claimant;
         claim.category = category;
         claim.witnesses = witnesses;
@@ -27,32 +26,27 @@ public:
   }
 
   [[eosio::action]]
-  void attest(name attestor, uint64_t claim_id, uint64_t confidence_level, string anecdote) {
+  void attest(name attestor, uint64_t claimId, uint64_t confidence_level, string anecdote) {
     require_auth(attestor);
-    // TODO - emplace
-     attestations_index attestations(_code, _code.value);
-     claims_index claims(_code, _code.value);
-     auto &claim = claims.get(claim_id, "No claim matching the provided claim id was found");
-     attestations.emplace(attestor, [&](auto & attestation){
-         attestation.id = attestations.available_primary_key();
-         attestation.claim_id = claim_id;
-         attestation.confident_level = confidence_level;
+     _attestationst.emplace(attestor, [&](auto & attestation){
+         attestation.id = _attestationst.available_primary_key();
+         attestation.claimobj = claimId;
+         attestation.confidence_level = confidence_level;
          attestation.anecdote = anecdote;
 
          // TODO - require_recipient claim.claimant? Appreciate witness (Transfer)?
+         // TODO - index with claimId
      });
   }
 
   [[eosio::action]]
-  void proof(name claimant, uint64_t claim_id, string description, string ipfs_path){
+  void proof(name claimant, uint64_t claimId, string description, string ipfs_path){
       require_auth(claimant);
-      proofs_index proofs(_code, _code.value);
-      claims_index claims(_code, _code.value);
-      auto &claim = claims.get(claim_id, "No claim matching the provided claim id was found");
-      proofs.emplace(claimant, [&](auto& proof){
-          proof.id = proofs.available_primary_key();
-          proof.claimant = claimant;
-          proof.claim_id = claim_id;
+      auto iterator = _claimst.find(claimId);
+      eosio_assert(iterator != _claimst.end(), "Record does not exist");
+      _proofst.emplace(claimant, [&](auto& proof){
+          proof.id = _proofst.available_primary_key();
+          proof.claimobj = claimId;
           proof.description = description;
           proof.ipfs_path = ipfs_path;
       });
@@ -63,7 +57,7 @@ public:
   }
 private:
   
-  struct [[eosio::table("claims")]] claim {
+  struct [[eosio::table("claims")]] claimobj {
     uint64_t id;
     name claimant;
     string claim;
@@ -71,31 +65,33 @@ private:
     vector<name> witnesses;
     uint64_t primary_key() const { return id; }
   };
-  typedef eosio::multi_index<"claims"_n, claim> claims_index;
+  typedef eosio::multi_index<"claims"_n, claimobj> claims_index;
 
   struct [[eosio::table("attestations")]] attestation{
       uint64_t id;
-      uint64_t claim_id;
+      uint64_t claimobj;
       uint64_t confidence_level;
       string anecdote;
 
       uint64_t primary_key() const { return id ;}
-      uint64_t by_claim_id() const {return claim_id; }
 
   };
-  typedef eosio::multi_index<"attestations"_n, attestation, eosio::indexed_by<"claim_id"_n, eosio::const_mem_fun<attestation, uint64_t, &attestation::by_claim_id>>> attestations_index;
+  typedef eosio::multi_index<"attestations"_n, attestation> attestations_index;
   
-   struct [[eosio::table("proofs")]] proof{
+   struct [[eosio::table("proofs")]] proofobj{
       uint64_t id;
-      uint64_t claim_id;
+      uint64_t claimobj;
       string description;
       string ipfs_path;
 
       uint64_t primary_key() const { return id ;}
-      uint64_t by_claim_id() const {return claim_id; }
   };
-  typedef eosio::multi_index<"proofs"_n, proof, eosio::indexed_by<"claim_id"_n, eosio::const_mem_fun<proof, uint64_t, &proof::by_claim_id>>> proofs_index;
+  typedef eosio::multi_index<"proofs"_n, proofobj> proofs_index;
 
+
+    claims_index _claimst;
+    attestations_index _attestationst;
+    proofs_index _proofst;
 };
 
 EOSIO_DISPATCH( witness, (claim)(attest)(proof) )    
