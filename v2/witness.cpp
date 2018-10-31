@@ -1,4 +1,5 @@
 #include <eosiolib/eosio.hpp>
+#include <eosiolib/print.hpp>
 
 using namespace eosio;
 using namespace std;  // Be concise!!!
@@ -15,21 +16,50 @@ public:
     require_auth( claimant );
 
     claims_index claims(_code, _code.value);
-     claims.emplace(claimant, [&]( auto& row ) {
-         // TODO  - emplace
+    claims.emplace(claimant, [&]( auto& claim ) {
+        claim.id = claims.available_primary_key();
+        claim.claimant = claimant;
+        claim.category = category;
+        claim.witnesses = witnesses;
+
+        // TODO - require_recipient each witness? Notify?
       });
-    
   }
 
   [[eosio::action]]
   void attest(name attestor, uint64_t claim_id, uint64_t confidence_level, string anecdote) {
     require_auth(attestor);
     // TODO - emplace
+     attestations_index attestations(_code, _code.value);
+     claims_index claims(_code, _code.value);
+     auto &claim = claims.get(claim_id, "No claim matching the provided claim id was found");
+     attestations.emplace(attestor, [&](auto & attestation){
+         attestation.id = attestations.available_primary_key();
+         attestation.claim_id = claim_id;
+         attestation.confident_level = confidence_level;
+         attestation.anecdote = anecdote;
+
+         // TODO - require_recipient claim.claimant? Appreciate witness (Transfer)?
+     });
   }
 
   [[eosio::action]]
-  void proof(name claimant, uint64_t claim_id, string ipfs_path){
-    // TODO - emplace
+  void proof(name claimant, uint64_t claim_id, string description, string ipfs_path){
+      require_auth(claimant);
+      proofs_index proofs(_code, _code.value);
+      claims_index claims(_code, _code.value);
+      auto &claim = claims.get(claim_id, "No claim matching the provided claim id was found");
+      proofs.emplace(claimant, [&](auto& proof){
+          proof.id = proofs.available_primary_key();
+          proof.claimant = claimant;
+          proof.claim_id = claim_id;
+          proof.description = description;
+          proof.ipfs_path = ipfs_path;
+      });
+
+
+
+
   }
 private:
   
@@ -58,6 +88,7 @@ private:
    struct [[eosio::table("proofs")]] proof{
       uint64_t id;
       uint64_t claim_id;
+      string description;
       string ipfs_path;
 
       uint64_t primary_key() const { return id ;}
