@@ -1,0 +1,185 @@
+{
+    "____comment": "This file was generated with eosio-abigen. DO NOT EDIT Wed Oct 31 04:23:41 2018",
+    "version": "eosio::abi/1.0",
+    "structs": [
+        {
+            "name": "attest",
+            "base": "",
+            "fields": [
+                {
+                    "name": "attestor",
+                    "type": "name"
+                },
+                {
+                    "name": "claimId",
+                    "type": "uint64"
+                },
+                {
+                    "name": "confidence_level",
+                    "type": "uint64"
+                },
+                {
+                    "name": "anecdote",
+                    "type": "string"
+                }
+            ]
+        },
+        {
+            "name": "attestation",
+            "base": "",
+            "fields": [
+                {
+                    "name": "id",
+                    "type": "uint64"
+                },
+                {
+                    "name": "claimobj",
+                    "type": "uint64"
+                },
+                {
+                    "name": "confidence_level",
+                    "type": "uint64"
+                },
+                {
+                    "name": "anecdote",
+                    "type": "string"
+                }
+            ]
+        },
+        {
+            "name": "claim",
+            "base": "",
+            "fields": [
+                {
+                    "name": "claimant",
+                    "type": "name"
+                },
+                {
+                    "name": "content",
+                    "type": "string"
+                },
+                {
+                    "name": "category",
+                    "type": "string"
+                },
+                {
+                    "name": "witnesses",
+                    "type": "name[]"
+                }
+            ]
+        },
+        {
+            "name": "claimobj",
+            "base": "",
+            "fields": [
+                {
+                    "name": "id",
+                    "type": "uint64"
+                },
+                {
+                    "name": "claimant",
+                    "type": "name"
+                },
+                {
+                    "name": "claim",
+                    "type": "string"
+                },
+                {
+                    "name": "category",
+                    "type": "string"
+                },
+                {
+                    "name": "witnesses",
+                    "type": "name[]"
+                }
+            ]
+        },
+        {
+            "name": "proof",
+            "base": "",
+            "fields": [
+                {
+                    "name": "claimant",
+                    "type": "name"
+                },
+                {
+                    "name": "claimId",
+                    "type": "uint64"
+                },
+                {
+                    "name": "description",
+                    "type": "string"
+                },
+                {
+                    "name": "ipfs_path",
+                    "type": "string"
+                }
+            ]
+        },
+        {
+            "name": "proofobj",
+            "base": "",
+            "fields": [
+                {
+                    "name": "id",
+                    "type": "uint64"
+                },
+                {
+                    "name": "claimobj",
+                    "type": "uint64"
+                },
+                {
+                    "name": "description",
+                    "type": "string"
+                },
+                {
+                    "name": "ipfs_path",
+                    "type": "string"
+                }
+            ]
+        }
+    ],
+    "types": [],
+    "actions": [
+        {
+            "name": "attest",
+            "type": "attest",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "claim",
+            "type": "claim",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "proof",
+            "type": "proof",
+            "ricardian_contract": ""
+        }
+    ],
+    "tables": [
+        {
+            "name": "attestations",
+            "type": "attestation",
+            "index_type": "i64",
+            "key_names": [],
+            "key_types": []
+        },
+        {
+            "name": "claims",
+            "type": "claimobj",
+            "index_type": "i64",
+            "key_names": [],
+            "key_types": []
+        },
+        {
+            "name": "proofs",
+            "type": "proofobj",
+            "index_type": "i64",
+            "key_names": [],
+            "key_types": []
+        }
+    ],
+    "ricardian_clauses": [],
+    "abi_extensions": []
+}
