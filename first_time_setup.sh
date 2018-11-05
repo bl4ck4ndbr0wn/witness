@@ -19,9 +19,9 @@ if [ ! -x "$(command -v docker)" ] ||
     exit
 fi
 
-# download eosio/eos-dev:v1.2.5 image
-echo "=== pull eosio/eos-dev image v1.2.5 from docker hub ==="
-docker pull eosio/eos-dev:v1.2.5
+# download eosio/eos-dev:v1.4.1 image
+echo "=== pull eosio/eos-dev image v1.4.1 from docker hub ==="
+docker pull eosio/eos-dev:v1.4.1
 
 # force remove the previous eosio container if it exists
 # create a clean data folder in the eosio_docker to preserve block data
@@ -35,8 +35,8 @@ echo "=== pull mongo image 4.0 from docker hub ==="
 docker pull mongo:4.0
 
 # force remove the previous mongodb container if it exists
-echo "=== setup/reset data for mongo_blog_container ==="
-docker stop mongo_blog_container || true && docker rm --force mongo_blog_container || true
+echo "=== setup/reset data for mongo_witness_container ==="
+docker stop mongo_witness_container || true && docker rm --force mongo_witness_container || true
 
 # set up node_modules for frontend
 echo "=== npm install packpage for frontend react app ==="

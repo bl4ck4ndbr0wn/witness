@@ -9,22 +9,23 @@ PATH="$PATH:/opt/eosio/bin:/opt/eosio/bin/scripts"
 
 set -m
 
+echo "=== install EOSIO.CDT (Contract Development Toolkit) ==="
+apt install /opt/eosio/bin/scripts/eosio.cdt-1.3.2.x86_64.deb
+
 # start nodeos ( local node of blockchain )
 # run it in a background job such that docker run could continue
 nodeos -e -p eosio -d /mnt/dev/data \
   --config-dir /mnt/dev/config \
   --http-validate-host=false \
   --plugin eosio::producer_plugin \
-  --plugin eosio::history_plugin \
   --plugin eosio::chain_api_plugin \
-  --plugin eosio::history_api_plugin \
   --plugin eosio::http_plugin \
   --http-server-address=0.0.0.0:8888 \
   --access-control-allow-origin=* \
   --contracts-console \
   --verbose-http-errors &
 sleep 1s
-  until curl localhost:8888/v1/chain/get_info
+until curl localhost:8888/v1/chain/get_info
 do
   sleep 1s
 done
@@ -46,17 +47,17 @@ cleos wallet import -n witnesswallet --private-key 5JD9AGTuTeD5BXZwGQ5AtwBqHK21a
 
 # * Replace "witnesswallet" with your own wallet name when you start your own project
 
-# create account for witnessacc with above wallet's public keys
-cleos create account eosio witnessacc EOS6PUh9rs7eddJNzqgqDx1QrspSHLRxLMcRdwHZZRL4tpbtvia5B EOS8BCgapgYA2L4LJfCzekzeSr3rzgSTUXRXwNi8bNRoz31D14en9
+# create account for witness with above wallet's public keys
+cleos create account eosio witness EOS6PUh9rs7eddJNzqgqDx1QrspSHLRxLMcRdwHZZRL4tpbtvia5B EOS8BCgapgYA2L4LJfCzekzeSr3rzgSTUXRXwNi8bNRoz31D14en9
 
-# * Replace "witnessacc" with your own account name when you start your own project
+# * Replace "witness" with your own account name when you start your own project
 
 echo "=== deploy smart contract ==="
 # $1 smart contract name
 # $2 account holder name of the smart contract
 # $3 wallet that holds the keys for the account
 # $4 password for unlocking the wallet
-deploy_contract.sh witness witnessacc witnesswallet $(cat witness_wallet_password.txt)
+deploy_contract.sh witness witness witnesswallet $(cat witness_wallet_password.txt)
 
 echo "=== create user accounts ==="
 # script for creating data into blockchain
@@ -67,7 +68,6 @@ echo "=== create mock data for contract ==="
 # create_mock_data.sh
 
 # * Replace the script with different form of data that you would pushed into the blockchain when you start your own project
-
 
 echo "=== end of setup blockchain accounts and smart contract ==="
 # create a file to indicate the blockchain has been initialized

@@ -2,7 +2,7 @@
 
 # Overview
 
-This witness DApp demonstrates the eosio platform running a blockchain as a local single node test net with a simple DApp. This DApp allows users to create, edit, delete and like witness posts. This guide uses scripts, containing relevant commands, which will show you how to install, build and run the DApp, and by doing so will demonstrate:
+This Blog DApp demonstrates the eosio platform running a blockchain as a local single node test net with a simple DApp. This DApp allows users to create, edit, delete and like witness posts. This guide uses scripts, containing relevant commands, which will show you how to install, build and run the DApp, and by doing so will demonstrate:
 
 - Downloading and running eosio in docker
 - Managing your docker container
@@ -57,7 +57,7 @@ The above command will execute the following in sequence:
 
 ```sh
 docker stop eosio_witness_container
-docker stop mongo_blog_container
+docker stop mongo_witness_container
 ```
 
 ## Frontend & Backend
@@ -180,7 +180,7 @@ This action will take a few seconds. The blockchain will eventually be stopped.
 In the second (MongoDB) terminal window, press `ctrl+c` on your keyboard, the log will stop printing. And then execute:
 
 ```sh
-docker stop mongo_blog_container
+docker stop mongo_witness_container
 ```
 
 This action will take a few seconds. The database will eventually be stopped.
@@ -238,25 +238,27 @@ This removes all data on the blockchain, including accounts, deployed smart cont
 ```js
 eosio-project-demux-example // project directory
 ├── backend
-│   ├── api // folders organized by Mongoose (MongoDB object modeling library) model definitions and its controller and router file if applicable
-│   │   ├── block-index-state
-│   │   │   └── block-index-state.model.js // defines the mongoose BlockIndexState model to
-│   │   └── post
-│   │       ├── post.controller.js // defines the mongoose Post model to store witness posts
-│   │       ├── post.model.js // defines the controller for witness posts
-│   │       └── post.route.js // defines routes relates to witness posts
-│   ├── demux // demux implementation
-│   │   ├── effects // demux effects implementations - side effects outside of the blockchain that should be triggered when blockchain events related to our smart contract are read
-│   │   ├── updaters // demux updaters implementations - updates the mongodb database when blockchain events related to our smart contract are read
-│   │   ├── ActionHandler.js // implementation of the demux AbstractActionHandler that connects to the mongodb database and passes in the mongoose schemas to be used to update the database by the above updaters
-│   │   └── index.js // exports the demux action watcher to start watching the blockchain when .watch() is called
 │   ├── node_modules // generated after npm install
 │   │   └── index.html // html skeleton for create react app
-│   ├── utils
-│   │   └── io.js // provider for Socket IO to allow websocket messages to be sent out to all connections
+│   ├── src // generated after npm install
+│   │   ├── routes // Express api routes
+│   │   │   └── posts.js // defines routes relates to witness posts
+│   │   ├── models // Mongoose (MongoDB object modeling library) model definitions
+│   │   │   ├── block-index-state.model.js // defines the mongoose BlockIndexState model to update the last processed blocks for Demux
+│   │   │   ├── index.js
+│   │   │   └── post.model.js // defines the mongoose Post model to store witness posts
+│   │   ├── services // services
+│   │   │   ├── demux // demux implementation
+│   │   │   │   ├── effects // demux effects implementations - side effects outside of the blockchain that should be triggered when blockchain events related to our smart contract are read
+│   │   │   │   ├── updaters // demux updaters implementations - updates the mongodb database when blockchain events related to our smart contract are read
+│   │   │   │   ├── ActionHandler.js // implementation of the demux AbstractActionHandler that connects to the mongodb database and passes in the mongoose schemas to be used to update the database by the above updaters
+│   │   │   │   └── index.js // exports the demux action watcher to start watching the blockchain when .watch() is called
+│   │   │   └── post // witness post service
+│   │   ├── utils
+│   │   │   └── io.js // provider for Socket IO to allow websocket messages to be sent out to all connections
+│   │   └── index.js // starts the express.js server to listen to http requests and uses socket io to listen for websocket connections. Also initiates demux to start watching the blockchain for events
 │   ├── package-lock.json // generated after npm install
-│   ├── package.json // for npm packages
-│   └── server.js // starts the express.js server to listen to http requests and uses socket io to listen for websocket connections. Also initiates demux to start watching the blockchain for events
+│   └── package.json // for npm packages
 ├── eosio_docker
 │   ├── * contracts // this folder will be mounted into docker
 │   │   └── witness
@@ -315,7 +317,7 @@ Users interact with the UI in client and sign transactions in frontend. The sign
 
 ## Docker usage
 
-Docker is used to wrap the eosio software and run a container (instance) from the image (eosio/eos-dev v1.1.0). To work with the blockchain directly, by running the scripts or using a cleos command line, you need to go into the container bash.
+Docker is used to wrap the eosio software and run a container (instance) from the image (eosio/eos-dev v1.4.1). To work with the blockchain directly, by running the scripts or using a cleos command line, you need to go into the container bash.
 
 Go into container bash:
 
@@ -342,7 +344,7 @@ To save time, we prepared some scripts for you. Execute the scripts in the conta
 The following script will help you to unlock the wallet, compile the modified contract and deploy to blockchain. 1st parameter is the contract name; 2nd parameter is the account name of the contract owner, 3rd and 4th parameter references wallet related information that was created during the `Initial setup`:
 
 ```sh
-./scripts/deploy_contract.sh witness witnessacc witnesswallet $(cat blog_wallet_password.txt)
+./scripts/deploy_contract.sh witness witnessacc witnesswallet $(cat witness_wallet_password.txt)
 ```
 
 After running this script the modified smart contract will be deployed on the blockchain.
@@ -372,7 +374,7 @@ docker run --rm --name eosio_witness_container \
 --mount type=bind,src="$(pwd)"/contracts,dst=/opt/eosio/bin/contracts \
 --mount type=bind,src="$(pwd)"/scripts,dst=/opt/eosio/bin/scripts \
 --mount type=bind,src="$(pwd)"/data,dst=/mnt/dev/data \
--w "/opt/eosio/bin/" eosio/eos-dev:v1.2.5 /bin/bash -c "./scripts/init_blockchain.sh"
+-w "/opt/eosio/bin/" eosio/eos-dev:v1.4.1 /bin/bash -c "./scripts/init_blockchain.sh"
 ```
 
 Output and follow docker console logs:
