@@ -1,20 +1,6 @@
-# EOSIO Demux Example
+# EOSWITNESS.IO
 
 # Overview
-
-This Blog DApp demonstrates the eosio platform running a blockchain as a local single node test net with a simple DApp. This DApp allows users to create, edit, delete and like witness posts. This guide uses scripts, containing relevant commands, which will show you how to install, build and run the DApp, and by doing so will demonstrate:
-
-- Downloading and running eosio in docker
-- Managing your docker container
-- Setting up and running a local single node testnet
-- Setting up wallets, keys, and accounts
-- Writing and deploying a smart contract
-- Implementing a Node.js server with [Demux](https://github.com/EOSIO/demux-js) to watch and read the state of the blockchain
-- Setting up and using a MongoDB database to store state data relevant to the DApp
-- Implementing a web based UI using React bootstrapped with [Create React App](https://github.com/facebook/create-react-app)
-- Connecting the UI to the blockchain using [eosjs](https://github.com/EOSIO/eosjs)
-
-The sample DApp demonstrates how to use [Demux](https://github.com/EOSIO/demux-js) to listen and read events relevant to our smart contract actions from our locally running eosio node. By doing so we can update our MongoDB database deterministically with witness post data, reduce the amount of data stored in the contract's multi index table and write complex queries through MongoDB that are unavailable with the multi index table interface. The smart contract is being utilized to check authorization rather than storing state data in the actual action implementations. For this example, several posts are created by default and can be interacted with in the UI.
 
 **Any private keys you see in this repository are for demo purposes only. For a real DApp NEVER expose the private keys.**
 
@@ -232,65 +218,6 @@ First, you need to stop the blockchain (as above). And then execute:
 ```
 
 This removes all data on the blockchain, including accounts, deployed smart contracts, etc... The block count will be reset when you start the blockchain again. This will also remove all of your MongoDB databases and collections, including the collections relevant to Demux and its processing.
-
-## Project structure
-
-```js
-eosio-project-demux-example // project directory
-├── backend
-│   ├── node_modules // generated after npm install
-│   │   └── index.html // html skeleton for create react app
-│   ├── src // generated after npm install
-│   │   ├── routes // Express api routes
-│   │   │   └── posts.js // defines routes relates to witness posts
-│   │   ├── models // Mongoose (MongoDB object modeling library) model definitions
-│   │   │   ├── block-index-state.model.js // defines the mongoose BlockIndexState model to update the last processed blocks for Demux
-│   │   │   ├── index.js
-│   │   │   └── post.model.js // defines the mongoose Post model to store witness posts
-│   │   ├── services // services
-│   │   │   ├── demux // demux implementation
-│   │   │   │   ├── effects // demux effects implementations - side effects outside of the blockchain that should be triggered when blockchain events related to our smart contract are read
-│   │   │   │   ├── updaters // demux updaters implementations - updates the mongodb database when blockchain events related to our smart contract are read
-│   │   │   │   ├── ActionHandler.js // implementation of the demux AbstractActionHandler that connects to the mongodb database and passes in the mongoose schemas to be used to update the database by the above updaters
-│   │   │   │   └── index.js // exports the demux action watcher to start watching the blockchain when .watch() is called
-│   │   │   └── post // witness post service
-│   │   ├── utils
-│   │   │   └── io.js // provider for Socket IO to allow websocket messages to be sent out to all connections
-│   │   └── index.js // starts the express.js server to listen to http requests and uses socket io to listen for websocket connections. Also initiates demux to start watching the blockchain for events
-│   ├── package-lock.json // generated after npm install
-│   └── package.json // for npm packages
-├── eosio_docker
-│   ├── * contracts // this folder will be mounted into docker
-│   │   └── witness
-│   │       └── witness.cpp // the main smart contract
-│   ├── * data // blockchain data, generated after first_time_setup.sh
-│   │   ├── blocks
-│   │   ├── state
-│   │   └── initialized // to indicate whether the blockchain has been initialized or not
-│   └── * scripts // scripts and utilities for docker container
-│       ├── accounts.json // pre-created account names, public and private keys (for demo only)
-│       ├── continue_blockchain.sh // continue the stopped blockchain
-│       ├── create_accounts.sh // create account data
-│       ├── create_mock_data.sh // create mock witness posts
-│       ├── deploy_contract.sh // deploy contract
-│       ├── init_blockchain.sh // script for creating accounts and deploying contract inside docker container
-│       └── mock_data.json // sample witness post data
-└── frontend
-    ├── node_modules // generated after npm install
-    ├── public
-    │   └── index.html // html skeleton for create react app
-    ├── src
-    │   ├── CreatePost // react component with form to create new witness posts
-    │   ├── Posts // react components related to a single post
-    │   │   ├── EditPost // form to edit a post
-    │   │   └── Post // witness post display
-    │   ├── utils // utlities for the react app
-    │   └── index.js // for react-dom to render the app
-    ├── package-lock.json // generated after npm install
-    └── package.json // for npm packages
-
-* means the directory will be mount to the docker container. Whenever the file changes on the local machine, it will be automatically reflected in the docker environment.
-```
 
 ## DApp development
 
