@@ -17,15 +17,15 @@ class[[eosio::contract]] witness : public eosio::contract
     {
         require_auth(claimant);
 
-        _claimst.emplace(claimant, [&](auto &claim) {
-            claim.id = _claimst.available_primary_key();
-            claim.claimant = claimant;
-            claim.claim = content;
-            claim.category = category;
-            claim.witnesses = witnesses;
+        // _claimst.emplace(claimant, [&](auto &claim) {
+        //     claim.id = _claimst.available_primary_key();
+        //     claim.claimant = claimant;
+        //     claim.claim = content;
+        //     claim.category = category;
+        //     claim.witnesses = witnesses;
 
-            // TODO - require_recipient each witness? Notify?
-        });
+        //     // TODO - require_recipient each witness? Notify?
+        // });
     }
 
     [[eosio::action]] void attest(name attestor, uint64_t claimId, uint64_t confidence_level, string anecdote) {

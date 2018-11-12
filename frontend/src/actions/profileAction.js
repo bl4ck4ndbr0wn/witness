@@ -1,7 +1,5 @@
 import axios from "axios";
 import { Api, JsonRpc, RpcError, JsSignatureProvider } from "eosjs";
-import ScatterJS from "scatterjs-core";
-import ScatterEOS from "scatterjs-plugin-eosjs2";
 
 import {
   GET_PROFILE,

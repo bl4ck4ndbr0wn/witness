@@ -1,151 +1,189 @@
-import React from "react";
+import React, { Component } from "react";
 import { Link } from "react-router-dom";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import ScatterJS from "scatterjs-core";
+import ScatterEOS from "scatterjs-plugin-eosjs2";
 
-import Login from "../auth/Login";
+import { authorize, logoutUser } from "../../actions/authAction";
+import claim from "../../actions/claimsActions";
 
-export default function TopHeader() {
-  return (
-    <div class="topbar stick">
-      <div class="logo">
-        <Link title="" to="/">
-          <img src="images/logo.png" alt="" style={{ height: "34px" }} />
-        </Link>
-      </div>
+class TopHeader extends Component {
+  constructor(props) {
+    super(props);
 
-      <div class="top-area">
-        <ul class="main-menu">
-          <li>
-            <Link to="/" title="Home" data-ripple="">
-              <i class="ti-home" /> Home
-            </Link>
-          </li>
-          <li>
-            <Link to="/profile" title="">
-              <i class="ti-user" /> Profile
-            </Link>
-          </li>
-          <li>
-            <a href="javascript;;" onClick={Login}>
-              <i class="ti-user" /> Login with scatter
-            </a>
-          </li>
-        </ul>
-        <ul class="setting-area">
-          <li>
-            <Link to="/" title="Home" data-ripple="">
-              <i class="ti-search" />
-            </Link>
-            <div class="searched">
-              <form method="post" class="form-search">
-                <input type="text" placeholder="Search Friend" />
-                <button data-ripple>
-                  <i class="ti-search" />
-                </button>
-              </form>
-            </div>
-          </li>
-          <li>
-            <Link to="#" title="Notification" data-ripple="">
-              <i class="ti-bell" />
-              <span>20</span>
-            </Link>
-            <div class="dropdowns">
-              <span>4 New Notifications</span>
-              <ul class="drops-menu">
-                <li>
-                  <Link to="notifications.html" title="">
-                    <img src="images/resources/thumb-1.jpg" alt="" />
-                    <div class="mesg-meta">
-                      <h6>sarah Loren</h6>
-                      <span>Hi, how r u dear ...?</span>
-                      <i>2 min ago</i>
-                    </div>
-                  </Link>
-                  <span class="tag green">New</span>
-                </li>
-                <li>
-                  <Link to="notifications.html" title="">
-                    <img src="images/resources/thumb-2.jpg" alt="" />
-                    <div class="mesg-meta">
-                      <h6>Jhon doe</h6>
-                      <span>Hi, how r u dear ...?</span>
-                      <i>2 min ago</i>
-                    </div>
-                  </Link>
-                  <span class="tag red">Reply</span>
-                </li>
-                <li>
-                  <Link to="notifications.html" title="">
-                    <img src="images/resources/thumb-3.jpg" alt="" />
-                    <div class="mesg-meta">
-                      <h6>Andrew</h6>
-                      <span>Hi, how r u dear ...?</span>
-                      <i>2 min ago</i>
-                    </div>
-                  </Link>
-                  <span class="tag blue">Unseen</span>
-                </li>
-                <li>
-                  <Link to="notifications.html" title="">
-                    <img src="images/resources/thumb-4.jpg" alt="" />
-                    <div class="mesg-meta">
-                      <h6>Tom cruse</h6>
-                      <span>Hi, how r u dear ...?</span>
-                      <i>2 min ago</i>
-                    </div>
-                  </Link>
-                  <span class="tag">New</span>
-                </li>
-                <li>
-                  <Link to="notifications.html" title="">
-                    <img src="images/resources/thumb-5.jpg" alt="" />
-                    <div class="mesg-meta">
-                      <h6>Amy</h6>
-                      <span>Hi, how r u dear ...?</span>
-                      <i>2 min ago</i>
-                    </div>
-                  </Link>
-                  <span class="tag">New</span>
-                </li>
-              </ul>
-              <Link to="notifications.html" title="" class="more-mesg">
-                view more
-              </Link>
-            </div>
-          </li>
-        </ul>
+    this.onLogin = this.onLogin.bind(this);
+    this.onLogoutClick = this.onLogoutClick.bind(this);
+    // this.onClaim = this.onClaim.bind(this);
+  }
+  onLogin(e) {
+    e.preventDefault();
 
-        {/* <div class="user-img mr-4">
-          <img src="images/resources/admin.jpg" alt="" />
-          <span class="status f-online" />
-          <div class="user-setting">
-            <Link to="#" title="">
-              <span class="status f-online" />
-              online
-            </Link>
-            <Link to="#" title="">
-              <span class="status f-away" />
-              away
-            </Link>
-            <Link to="#" title="">
-              <span class="status f-off" />
-              offline
-            </Link>
-            <Link to="/profile" title="">
-              <i class="ti-user" /> view profile
-            </Link>
-            <Link to="#" title="">
-              <i class="ti-settings" />
-              account setting
-            </Link>
-            <Link to="#" title="">
-              <i class="ti-power-off" />
-              log out
-            </Link>
-          </div>
+    this.props.authorize();
+  }
+
+  onLogoutClick(e) {
+    e.preventDefault();
+
+    this.props.logoutUser();
+  }
+
+  // onClaim(e) {
+  //   e.preventDefault();
+
+  //   this.props.claim(this.props.auth.user);
+  // }
+
+  render() {
+    const { isAuthenticated, user, loading } = this.props.auth;
+
+    return (
+      <div class="topbar stick">
+        <div class="logo">
+          <Link title="" to="/">
+            <img src="images/logo.png" alt="" style={{ height: "34px" }} />
+          </Link>
         </div>
-      */}
+
+        <div class="top-area">
+          <ul class="main-menu">
+            <li>
+              <a title="Home" data-ripple="" onClick={claim}>
+                <i class="ti-home" /> Home
+              </a>
+            </li>
+
+            {isAuthenticated && !loading ? (
+              <li>
+                <a>
+                  <i class="ti-user" />
+                  {user.identity.accounts[0].name} : @
+                  {user.identity.accounts[0].authority}
+                </a>
+
+                <ul>
+                  <li>
+                    <Link to="/profile" title="">
+                      <i class="ti-user" /> Profile
+                    </Link>
+                  </li>
+                  <li>
+                    <a onClick={this.onLogoutClick}> logout </a>
+                  </li>
+                </ul>
+              </li>
+            ) : (
+              <li>
+                <a onClick={this.onLogin}>
+                  <i class="ti-user" /> Login with scatter
+                </a>
+              </li>
+            )}
+          </ul>
+          <ul class="setting-area">
+            <li>
+              <Link to="/" title="Home" data-ripple="">
+                <i class="ti-search" />
+              </Link>
+              <div class="searched">
+                <form method="post" class="form-search">
+                  <input type="text" placeholder="Search Friend" />
+                  <button data-ripple>
+                    <i class="ti-search" />
+                  </button>
+                </form>
+              </div>
+            </li>
+            <li>
+              <Link to="#" title="Notification" data-ripple="">
+                <i class="ti-bell" />
+                <span>20</span>
+              </Link>
+              <div class="dropdowns">
+                <span>4 New Notifications</span>
+                <ul class="drops-menu">
+                  <li>
+                    <Link to="notifications.html" title="">
+                      <img src="images/resources/thumb-1.jpg" alt="" />
+                      <div class="mesg-meta">
+                        <h6>sarah Loren</h6>
+                        <span>Hi, how r u dear ...?</span>
+                        <i>2 min ago</i>
+                      </div>
+                    </Link>
+                    <span class="tag green">New</span>
+                  </li>
+                  <li>
+                    <Link to="notifications.html" title="">
+                      <img src="images/resources/thumb-2.jpg" alt="" />
+                      <div class="mesg-meta">
+                        <h6>Jhon doe</h6>
+                        <span>Hi, how r u dear ...?</span>
+                        <i>2 min ago</i>
+                      </div>
+                    </Link>
+                    <span class="tag red">Reply</span>
+                  </li>
+                  <li>
+                    <Link to="notifications.html" title="">
+                      <img src="images/resources/thumb-3.jpg" alt="" />
+                      <div class="mesg-meta">
+                        <h6>Andrew</h6>
+                        <span>Hi, how r u dear ...?</span>
+                        <i>2 min ago</i>
+                      </div>
+                    </Link>
+                    <span class="tag blue">Unseen</span>
+                  </li>
+                  <li>
+                    <Link to="notifications.html" title="">
+                      <img src="images/resources/thumb-4.jpg" alt="" />
+                      <div class="mesg-meta">
+                        <h6>Tom cruse</h6>
+                        <span>Hi, how r u dear ...?</span>
+                        <i>2 min ago</i>
+                      </div>
+                    </Link>
+                    <span class="tag">New</span>
+                  </li>
+                  <li>
+                    <Link to="notifications.html" title="">
+                      <img src="images/resources/thumb-5.jpg" alt="" />
+                      <div class="mesg-meta">
+                        <h6>Amy</h6>
+                        <span>Hi, how r u dear ...?</span>
+                        <i>2 min ago</i>
+                      </div>
+                    </Link>
+                    <span class="tag">New</span>
+                  </li>
+                </ul>
+                <Link to="notifications.html" title="" class="more-mesg">
+                  view more
+                </Link>
+              </div>
+            </li>
+          </ul>
+        </div>
       </div>
-    </div>
-  );
+    );
+  }
 }
+
+TopHeader.propTypes = {
+  authorize: PropTypes.func.isRequired,
+  logoutUser: PropTypes.func.isRequired,
+  claim: PropTypes.func.isRequired,
+  auth: PropTypes.object.isRequired,
+  errors: PropTypes.object.isRequired
+};
+
+const mapStateToProps = state => ({
+  auth: state.auth,
+  errors: state.errors
+});
+
+export default connect(
+  mapStateToProps,
+  { authorize, logoutUser, claim }
+)(TopHeader);
