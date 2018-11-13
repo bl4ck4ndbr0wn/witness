@@ -14,30 +14,8 @@ try {
     avatar: {
       type: String
     },
-    skills: [
-      {
-        claimant: String,
-        content: String,
-        witnesses: [String],
-        claimConfirmed: {
-          type: Boolean,
-          default: false
-        }
-      }
-    ],
     bio: String,
-    experience: [
-      {
-        claimant: String,
-        content: String,
-        witnesses: [String],
-        claimConfirmed: {
-          type: Boolean,
-          default: false
-        }
-      }
-    ],
-    education: [
+    claim: [
       {
         claimant: String,
         content: String,

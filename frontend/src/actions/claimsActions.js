@@ -8,12 +8,12 @@ const claim = function(event) {
   ScatterJS.plugins(new ScatterEOS());
   const network = {
     blockchain: "eos",
-    protocol: "http",
-    host: "127.0.0.1",
-    port: 8888,
-    chainId: "cf057bbfb72640471fd910bcb67639c22df9f92470936cddc1ade0e2f2e7dc4f"
+    protocol: "https",
+    host: "api-kylin.eosasia.one",
+    port: 443,
+    chainId: "5fff1dae8dc8e2fc4d5b23b2c7665c97f9e9d8edf2b6485a86ba311c25639191"
   };
-  ScatterJS.scatter.connect("witty").then(connected => {
+  ScatterJS.scatter.connect("witness").then(connected => {
     // User does not have Scatter Desktop, Mobile or Classic installed.
     if (!connected) return false;
 
@@ -41,6 +41,8 @@ const claim = function(event) {
         // dispatch(setScatter(ScatterJS.scatter));
 
         process(scatter, network);
+
+        console.log("finished");
       })
       .catch(error => {
         console.log("Errors here = " + error);
@@ -53,7 +55,7 @@ const claim = function(event) {
 
 const process = function(scatter, network) {
   console.log("Heading there");
-  const rpc = new JsonRpc("http://127.0.0.1:8888", { fetch });
+  const rpc = new JsonRpc("https://api-kylin.eosasia.one:443", { fetch });
   console.log(scatter);
   const api = new Api({
     rpc,
@@ -61,42 +63,41 @@ const process = function(scatter, network) {
   });
 
   const data = {
-    claimant: "claimant",
+    claimant: scatter.identity.accounts[0].name,
     content: "Hello there",
-    category: "Education"
+    category: "Education",
+    witnesses: ["alphangangaa"]
   };
   execute(api, scatter, "claim", data);
 };
 
-const execute = function(api, scatter, action_name, data) {
+const execute = async (api, scatter, action_name, data) => {
   console.log("claiming");
   try {
     const actorName = scatter.identity.accounts[0].name;
     const actorAuthority = scatter.identity.accounts[0].authority;
-    (async () => {
-      const result = await api.transact(
-        {
-          actions: [
-            {
-              account: "witnessio",
-              name: action_name,
-              authorization: [
-                {
-                  actor: actorName,
-                  permission: actorAuthority
-                }
-              ],
-              data: data
-            }
-          ]
-        },
-        {
-          blocksBehind: 3,
-          expireSeconds: 30
-        }
-      );
-      console.dir(result);
-    })();
+    const result = await api.transact(
+      {
+        actions: [
+          {
+            account: "witnessaccnt",
+            name: action_name,
+            authorization: [
+              {
+                actor: actorName,
+                permission: actorAuthority
+              }
+            ],
+            data: data
+          }
+        ]
+      },
+      {
+        blocksBehind: 3,
+        expireSeconds: 30
+      }
+    );
+    console.dir(result);
   } catch (e) {
     console.log("\nCaught exception: " + e);
     if (e instanceof RpcError) console.log(JSON.stringify(e.json, null, 2));
