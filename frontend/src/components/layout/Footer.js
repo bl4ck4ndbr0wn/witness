@@ -26,7 +26,7 @@ export default function Footer() {
                 <ul class="location">
                   <li>
                     <i class="ti-map-alt" />
-                    <p>33 new montgomery st.750 san francisco, CA USA 94105.</p>
+                    <p>123 A Wonderful Place of EOS</p>
                   </li>
                   <li>
                     <i class="ti-mobile" />
@@ -43,31 +43,31 @@ export default function Footer() {
                 <ul class="list-style">
                   <li>
                     <i class="fa fa-facebook-square" />{" "}
-                    <a href="https://web.facebook.com/shopcircut/" title="">
+                    <a href="https://web.facebook.com/eoswitnessio/" target="_blank" title="">
                       facebook
                     </a>
                   </li>
                   <li>
                     <i class="fa fa-twitter-square" />
-                    <a href="https://twitter.com/login?lang=en" title="">
+                    <a href="https://twitter.com/eoswitnessio" target="_blank" title="">
                       twitter
                     </a>
                   </li>
                   <li>
                     <i class="fa fa-instagram" />
-                    <a href="https://www.instagram.com/?hl=en" title="">
+                    <a href="https://www.instagram.com/?hl=en" target="_blank" title="">
                       instagram
                     </a>
                   </li>
                   <li>
                     <i class="fa fa-google-plus-square" />{" "}
-                    <a href="https://plus.google.com/discover" title="">
+                    <a href="https://plus.google.com/discover" target="_blank" title="">
                       Google+
                     </a>
                   </li>
                   <li>
                     <i class="fa fa-pinterest-square" />{" "}
-                    <a href="https://www.pinterest.com/" title="">
+                    <a href="https://www.pinterest.com/" target="_blank" title="">
                       Pintrest
                     </a>
                   </li>
@@ -82,7 +82,7 @@ export default function Footer() {
                 <ul class="list-style">
                   <li>
                     <a href="about.html" title="">
-                      about us
+                      About Us
                     </a>
                   </li>
                   <li>
@@ -92,7 +92,7 @@ export default function Footer() {
                   </li>
                   <li>
                     <a href="#" title="">
-                      terms & Conditions
+                      Terms & Conditions
                     </a>
                   </li>
                   <li>
