@@ -1,6 +1,6 @@
 #include "witness.hpp"
 
-ACTION witness::claim(const eosio::name &user, const uint64_t &timestamp, const std::string category, std::string content, const std::string ipfs_path, const std::vector<eosio::name> &witnesses)
+ACTION witness::claim(const eosio::name &user, const uint64_t &timestamp, const std::string category, std::string content, std::string ipfs_path, const std::vector<eosio::name> &witnesses)
 {
     require_auth(user);
     // Constrain content length to 280 chars (Tweet length)

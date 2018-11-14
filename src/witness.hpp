@@ -9,7 +9,7 @@ CONTRACT witness : public eosio::contract
   public:
     witness(eosio::name self, eosio::name code, eosio::datastream<const char *> stream) : contract(self, code, stream), _claims(self, self.value), _attestations(self, self.value) {}
 
-    ACTION claim(const eosio::name &user, const uint64_t &timestamp, const std::string category, std::string content, const std::string ipfs_path, const std::vector<eosio::name> &witnesses);
+    ACTION claim(const eosio::name &user, const uint64_t &timestamp, const std::string category, std::string content, std::string ipfs_path, const std::vector<eosio::name> &witnesses);
 
     ACTION attest(const uint64_t &timestamp, const eosio::name &user, const eosio::name &reviewer, const std::string &review, std::string ipfs_path);
 
