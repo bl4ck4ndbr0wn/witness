@@ -63,7 +63,8 @@ const process = function(scatter, network) {
   });
 
   const data = {
-    claimant: scatter.identity.accounts[0].name,
+    user: scatter.identity.accounts[0].name,
+    timestamp: Math.floor(Date.now() / 1000),
     content: "Hello there",
     category: "Education",
     witnesses: ["alphangangaa"]
