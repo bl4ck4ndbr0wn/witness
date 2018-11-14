@@ -1,11 +1,12 @@
 const express = require("express");
 const path = require("path");
 
-const home = require("./routes");
-
 const app = express();
 // Use Routes
-app.use("/api/home", home);
+
+app.get("/api/v1", (req, res) => {
+  res.json("Server working perfectly");
+});
 
 // Server static assets if in production
 if (process.env.NODE_ENV === "production") {

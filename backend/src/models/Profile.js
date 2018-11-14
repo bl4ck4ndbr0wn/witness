@@ -6,7 +6,7 @@ let Profile = null;
 
 try {
   const ProfileSchema = new Schema({
-    handle: {
+    user: {
       type: String,
       required: true,
       max: 40
@@ -17,9 +17,21 @@ try {
     bio: String,
     claim: [
       {
-        claimant: String,
+        category: String,
+        timestamp: String,
         content: String,
+        ipfs_path: String,
         witnesses: [String],
+        reviews: [
+          {
+            reviewer: String,
+            review: String,
+            reviewConfirmed: {
+              type: Boolean,
+              default: false
+            }
+          }
+        ],
         claimConfirmed: {
           type: Boolean,
           default: false
@@ -46,10 +58,6 @@ try {
     created_at: {
       type: Date,
       default: Date.now
-    },
-    profileConfirmed: {
-      type: Boolean,
-      default: false
     }
   });
   Profile = mongoose.model("Profile", ProfileSchema);

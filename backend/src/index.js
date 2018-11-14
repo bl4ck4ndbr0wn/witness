@@ -16,6 +16,16 @@ app.use(bodyParser.json());
 
 app.use("/v1/witness/profile", profile());
 
+// Server static assets if in production
+if (process.env.NODE_ENV === "production") {
+  // Set static folder
+  app.use(express.static("frontend/build"));
+
+  app.get("*", (req, res) => {
+    res.sendFile(path.resolve(__dirname, "frontend", "build", "index.html"));
+  });
+}
+
 const server = app.listen(process.env.PORT, () =>
   console.info(`Witness.io dapp listening on port ${process.env.PORT}!`)
 );

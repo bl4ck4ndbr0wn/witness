@@ -1,0 +1,1 @@
+{"version":3,"sources":["../../../../src/services/demux/updaters/index.js"],"names":["witness"],"mappings":";;;;;;;AAAA;;;;eAEe,CAAC,GAAGA,gBAAJ,C","sourcesContent":["import witness from \"./witness\";\n\nexport default [...witness];\n"],"file":"index.js"}

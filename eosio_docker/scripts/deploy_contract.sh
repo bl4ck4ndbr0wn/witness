@@ -27,3 +27,6 @@ if [ ! -z $3 ]; then ./cleos wallet unlock -n $3 --password $4 || true; fi
 
 # set (deploy) compiled contract to blockchain
 cleos set contract $2 "$COMPILEDCONTRACTSPATH/$1/" --permission $2
+
+
+deploy_contract.sh witness witnessaccnt witnecleosswallet $(cat witness_wallet_password.txt)
