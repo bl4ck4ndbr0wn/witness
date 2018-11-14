@@ -1,4 +1,7 @@
 import { Profile } from "../models";
+import Validator from "validator";
+
+import isEmpty from "../validation/is-empty";
 
 const getAll = async (req, res) => {
   try {
@@ -11,9 +14,9 @@ const getAll = async (req, res) => {
   }
 };
 
-const getByHandle = async (req, res) => {
+const getByuser = async (req, res) => {
   try {
-    const profile = await Profile.findOne({ handle: req.params.handle }).exec();
+    const profile = await Profile.findOne({ user: req.params.user }).exec();
     if (!profile) {
       errors.noprofile = "There is no profile for this user";
       res.status(404).json(errors);
@@ -26,16 +29,27 @@ const getByHandle = async (req, res) => {
 };
 
 const createProfile = (req, res) => {
+  let errors = {};
+
+  req.body.user = !isEmpty(req.body.user) ? req.body.user : "";
+
+  if (!Validator.isLength(req.body.user, { min: 2, max: 14 })) {
+    errors.user = "User needs to between 2 and 4 characters";
+  }
+  if (Validator.isEmpty(req.body.user)) {
+    errors.user = "Profile handle is required";
+  }
+
+  if (!isEmpty(errors)) {
+    // Return any errors with 400 status
+    return res.status(400).json(errors);
+  }
+
   // Get fields
   const profileFields = {};
-  profileFields.handle = req.body.handle;
+  profileFields.user = req.body.user;
   if (req.body.bio) profileFields.bio = req.body.bio;
   if (req.body.avatar) profileFields.avatar = req.body.avatar;
-
-  // Skills - Spilt into array
-  if (typeof req.body.skills !== "undefined") {
-    profileFields.skills = req.body.skills.split(",");
-  }
 
   // Social
   profileFields.social = {};
@@ -45,23 +59,23 @@ const createProfile = (req, res) => {
   if (req.body.linkedin) profileFields.social.linkedin = req.body.linkedin;
   if (req.body.instagram) profileFields.social.instagram = req.body.instagram;
 
-  profileFields.profileConfirmed = req.body.profileConfirmed;
+  profileFields.profileConfirmed = true;
 
-  Profile.findOne({ handle: profileFields.handle }).then(profile => {
+  Profile.findOne({ user: profileFields.user }).then(profile => {
     if (profile) {
       // Update
       Profile.findOneAndUpdate(
-        { handle: profileFields.handle },
+        { user: profileFields.user },
         { $set: profileFields },
         { new: true }
       ).then(profile => res.json(profile));
     } else {
       // Create
 
-      // Check if handle exists
-      Profile.findOne({ handle: profileFields.handle }).then(profile => {
+      // Check if user exists
+      Profile.findOne({ user: profileFields.user }).then(profile => {
         if (profile) {
-          errors.handle = "That handle already exists";
+          errors.user = "That user already exists";
           res.status(400).json(errors);
         }
 
@@ -72,4 +86,4 @@ const createProfile = (req, res) => {
   });
 };
 
-export { getAll, getByHandle, createProfile };
+export { getAll, getByuser, createProfile };

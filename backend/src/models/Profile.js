@@ -15,29 +15,6 @@ try {
       type: String
     },
     bio: String,
-    claim: [
-      {
-        category: String,
-        timestamp: String,
-        content: String,
-        ipfs_path: String,
-        witnesses: [String],
-        reviews: [
-          {
-            reviewer: String,
-            review: String,
-            reviewConfirmed: {
-              type: Boolean,
-              default: false
-            }
-          }
-        ],
-        claimConfirmed: {
-          type: Boolean,
-          default: false
-        }
-      }
-    ],
     social: {
       youtube: {
         type: String
@@ -58,6 +35,10 @@ try {
     created_at: {
       type: Date,
       default: Date.now
+    },
+    profileConfirmed: {
+      type: Boolean,
+      default: false
     }
   });
   Profile = mongoose.model("Profile", ProfileSchema);

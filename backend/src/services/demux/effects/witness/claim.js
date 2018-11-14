@@ -1,8 +1,10 @@
 function claim(state, payload, blockInfo, context) {
   const claim = {
-    claimant: payload.data.claimant,
+    timestamp: payload.data.timestamp,
+    user: payload.data.user,
     category: payload.data.category,
     content: payload.data.content,
+    ipfs_path: payload.data.ipfs_path,
     witnesses: payload.data.witnesses
   };
   context.socket.emit("claim", claim);

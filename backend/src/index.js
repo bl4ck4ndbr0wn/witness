@@ -14,7 +14,7 @@ app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-app.use("/v1/witness/profile", profile());
+app.use("/api/v1/profile", profile());
 
 // Server static assets if in production
 if (process.env.NODE_ENV === "production") {

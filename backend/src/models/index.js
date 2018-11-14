@@ -1,5 +1,5 @@
 import BlockIndexState from "./block-index-state.model";
-import User from "./User";
 import Profile from "./Profile";
+import Claim from "./claims";
 
-export { BlockIndexState, User, Profile };
+export { BlockIndexState, Claim, Profile };
