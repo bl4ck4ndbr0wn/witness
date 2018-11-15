@@ -28,6 +28,18 @@ const getByuser = async (req, res) => {
   }
 };
 
+const profilePhoto = async (req, res) => {
+  try {
+    Profile.findOneAndUpdate(
+      { user: req.params.user },
+      { $set: { avatar: req.files[0].path } },
+      { new: true }
+    ).then(profile => res.json(profile));
+  } catch (err) {
+    res.status(404).json(err);
+  }
+};
+
 const createProfile = (req, res) => {
   let errors = {};
 
@@ -86,4 +98,4 @@ const createProfile = (req, res) => {
   });
 };
 
-export { getAll, getByuser, createProfile };
+export { getAll, getByuser, createProfile, profilePhoto };

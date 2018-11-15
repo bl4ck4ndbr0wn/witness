@@ -5,6 +5,7 @@ import { withRouter } from "react-router-dom";
 import PropTypes from "prop-types";
 
 import { createProfile } from "../../actions/profileAction";
+import { claim } from "../../actions/claimsActions";
 
 class CreateEducation extends Component {
   constructor() {
@@ -60,20 +61,18 @@ class CreateEducation extends Component {
       witnesses
     };
 
-    this.props.createClaim(profileData);
-    // this.props.createProfile(profileData, this.props.history);
+    let data = {
+      content,
+      category,
+      ipfs_path: "",
+      witnesses
+    };
+    claim(data);
   }
   render() {
     const { errors } = this.state;
 
-    const options = [
-      { label: "bobross", value: "bobross" },
-      { label: "janesmith", value: "janesmith" },
-      { label: "sampeters", value: "sampeters" },
-      { label: "willthompson", value: "willthompson" },
-      { label: "sarabrown", value: "sarabrown" },
-      { label: "lisawalters", value: "lisawalters" }
-    ];
+    const options = [{ label: "samooopeters", value: "samooopeters" }];
 
     return (
       <div class="central-meta">

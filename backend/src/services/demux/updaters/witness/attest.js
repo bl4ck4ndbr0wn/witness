@@ -1,6 +1,7 @@
 async function attest(state, payload, blockInfo, context) {
   const Claim = state.claim;
   const Profile = state.profile;
+  console.log(payload.data);
   try {
     let profile = await Profile.findOne({
       user: payload.data.user

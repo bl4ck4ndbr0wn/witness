@@ -1,3 +1,4 @@
+import axios from "axios";
 import ScatterJS from "scatterjs-core";
 import ScatterEOS from "scatterjs-plugin-eosjs2";
 
@@ -15,6 +16,8 @@ const network = {
 // Declare the type (EOS)
 ScatterJS.plugins(new ScatterEOS());
 
+let scatter;
+
 export const authorize = () => async dispatch => {
   console.log("authenicating");
 
@@ -23,7 +26,7 @@ export const authorize = () => async dispatch => {
     // User does not have Scatter Desktop, Mobile or Classic installed.
     if (!connected) return false;
 
-    const scatter = ScatterJS.scatter;
+    scatter = ScatterJS.scatter;
 
     // Declare your required fields here.
     const requiredFields = {
@@ -41,7 +44,19 @@ export const authorize = () => async dispatch => {
           localStorage.setItem("scatter", JSON.stringify(scatter));
         }
 
-        dispatch(setCurrentUser(ScatterJS.scatter));
+        axios
+          .post("http://localhost:4000/api/v1/profile", {
+            user: scatter.identity.accounts[0].name
+          })
+          .then(res => {
+            dispatch(setCurrentUser(ScatterJS.scatter));
+          })
+          .catch(err => {
+            dispatch({
+              type: GET_ERRORS,
+              payload: err
+            });
+          });
       })
       .catch(err =>
         dispatch({
@@ -61,13 +76,16 @@ export const logoutUser = () => dispatch => {
   localStorage.removeItem("scatter");
   // Set current user to {} which will set isAuthenticated to false
   dispatch(setCurrentUser({}));
+  scatter.forgetIdentity();
+  // Redirect to login
+  window.location.href = "/";
 };
 
 // Set logged in user
-export const setCurrentUser = decoded => {
+export const setCurrentUser = scatter => {
   return {
     type: SET_CURRENT_USER,
-    payload: decoded
+    payload: scatter
   };
 };
 

@@ -1,9 +1,49 @@
 import { Api, JsonRpc, RpcError, JsSignatureProvider } from "eosjs";
 import ScatterJS from "scatterjs-core";
 import ScatterEOS from "scatterjs-plugin-eosjs2";
+import axios from "axios";
 
-const claim = function(event) {
-  event.preventDefault();
+import { CLAIMS_LOADING, GET_CLAIMS } from "./types";
+
+const url = "http://localhost:4000/api/v1";
+
+export const getClaims = () => dispatch => {
+  dispatch(setClaimsLoading());
+  axios
+    .get(`${url}/claims/all`)
+    .then(res =>
+      dispatch({
+        type: GET_CLAIMS,
+        payload: res.data
+      })
+    )
+    .catch(err =>
+      dispatch({
+        type: GET_CLAIMS,
+        payload: null
+      })
+    );
+};
+// Get profile by handle
+export const getClaimsByHandle = handle => dispatch => {
+  dispatch(setClaimsLoading());
+  axios
+    .get(`${url}/claims/${handle}`)
+    .then(res =>
+      dispatch({
+        type: GET_CLAIMS,
+        payload: res.data
+      })
+    )
+    .catch(err =>
+      dispatch({
+        type: GET_CLAIMS,
+        payload: null
+      })
+    );
+};
+
+export const claim = data => {
   // Declare the type (EOS)
   ScatterJS.plugins(new ScatterEOS());
   const network = {
@@ -40,7 +80,7 @@ const claim = function(event) {
         // Redux
         // dispatch(setScatter(ScatterJS.scatter));
 
-        process(scatter, network);
+        process(scatter, network, data);
 
         console.log("finished");
       })
@@ -53,7 +93,7 @@ const claim = function(event) {
   });
 };
 
-const process = function(scatter, network) {
+const process = function(scatter, network, data) {
   console.log("Heading there");
   const rpc = new JsonRpc("https://api-kylin.eosasia.one:443", { fetch });
   console.log(scatter);
@@ -62,17 +102,16 @@ const process = function(scatter, network) {
     signatureProvider: scatter.eosHook(network)
   });
 
-  const data = {
+  const dataFiles = {
+    ...data,
     user: scatter.identity.accounts[0].name,
-    timestamp: Math.floor(Date.now() / 1000),
-    content: "Hello there",
-    category: "Education",
-    witnesses: ["alphangangaa"]
+    timestamp: Math.floor(Date.now() / 1000)
   };
-  execute(api, scatter, "claim", data);
+
+  execute(api, scatter, "claim", dataFiles);
 };
 
-const execute = async (api, scatter, action_name, data) => {
+const execute = async (api, scatter, action_name, dataFiles) => {
   console.log("claiming");
   try {
     const actorName = scatter.identity.accounts[0].name;
@@ -89,7 +128,7 @@ const execute = async (api, scatter, action_name, data) => {
                 permission: actorAuthority
               }
             ],
-            data: data
+            data: dataFiles
           }
         ]
       },
@@ -105,4 +144,9 @@ const execute = async (api, scatter, action_name, data) => {
   }
 };
 
-export default claim;
+// Profile loading
+export const setClaimsLoading = () => {
+  return {
+    type: CLAIMS_LOADING
+  };
+};

@@ -6,7 +6,6 @@ import ScatterJS from "scatterjs-core";
 import ScatterEOS from "scatterjs-plugin-eosjs2";
 
 import { authorize, logoutUser } from "../../actions/authAction";
-import claim from "../../actions/claimsActions";
 
 class TopHeader extends Component {
   constructor(props) {
@@ -48,9 +47,9 @@ class TopHeader extends Component {
         <div class="top-area">
           <ul class="main-menu">
             <li>
-              <a title="Home" data-ripple="" onClick={claim}>
+              <Link to="/" title="Home" data-ripple="">
                 <i class="ti-home" /> Home
-              </a>
+              </Link>
             </li>
 
             {isAuthenticated && !loading ? (
@@ -63,7 +62,10 @@ class TopHeader extends Component {
 
                 <ul>
                   <li>
-                    <Link to="/profile" title="">
+                    <Link
+                      to={`/profile/${user.identity.accounts[0].name}`}
+                      title=""
+                    >
                       <i class="ti-user" /> Profile
                     </Link>
                   </li>
@@ -173,7 +175,6 @@ class TopHeader extends Component {
 TopHeader.propTypes = {
   authorize: PropTypes.func.isRequired,
   logoutUser: PropTypes.func.isRequired,
-  claim: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
   errors: PropTypes.object.isRequired
 };
@@ -185,5 +186,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { authorize, logoutUser, claim }
+  { authorize, logoutUser }
 )(TopHeader);

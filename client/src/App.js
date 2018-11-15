@@ -6,13 +6,14 @@ import store from "./store";
 
 import { logoutUser, setCurrentUser } from "./actions/authAction";
 
-// import PrivateRoute from "./components/common/PrivateRoute";
+import PrivateRoute from "./components/common/PrivateRoute";
 
 import Dashboard from "./components/dashboard/Dashboard";
 import Profile from "./components/profile/Profile";
 import Header from "./components/layout/Header";
 import TopHeader from "./components/layout/TopHeader";
 import Footer from "./components/layout/Footer";
+import NotFound from "./components/not-found/NotFound";
 
 // Check for token
 if (localStorage.scatter) {
@@ -33,7 +34,8 @@ class App extends Component {
             <React.Fragment>
               <Route exact path="/" component={Dashboard} />
               <Route exact path="/dashboard" component={Dashboard} />
-              <Route exact path="/profile" component={Profile} />
+              <Route exact path="/profile/:handle" component={Profile} />
+              <Route exact path="/not-found" component={NotFound} />
             </React.Fragment>
 
             <Footer />

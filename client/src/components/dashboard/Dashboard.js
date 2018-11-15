@@ -1,13 +1,27 @@
 import React, { Component } from "react";
-import Header from "../layout/Header";
-import TopHeader from "../layout/TopHeader";
-import Footer from "../layout/Footer";
+import { Link } from "react-router-dom";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
 import ShortCut from "./ShortCut";
-import RecentActivities from "./RecentActivities";
-import Claims from "../claims/Claims";
 
-export default class Dashboard extends Component {
+import RecentActivities from "./RecentActivities";
+import Spinner from "../common/Spinner";
+import ClaimsFeed from "../claims/ClaimsFeed";
+
+import { getClaims } from "../../actions/claimsActions";
+class Dashboard extends Component {
+  componentDidMount() {
+    this.props.getClaims();
+  }
   render() {
+    const { claims, loading } = this.props.claim;
+    let claimContent;
+
+    if (claims === null || loading) {
+      claimContent = <Spinner />;
+    } else {
+      claimContent = <ClaimsFeed claims={claims} />;
+    }
     return (
       <section>
         <div class="gap gray-bg">
@@ -23,9 +37,7 @@ export default class Dashboard extends Component {
                   </div>
 
                   <div class="col-lg-6">
-                    <div class="loadMore">
-                      <Claims />
-                    </div>
+                    <div class="loadMore">{claimContent}</div>
                   </div>
 
                   <div class="col-lg-3">
@@ -65,3 +77,19 @@ export default class Dashboard extends Component {
     );
   }
 }
+
+Dashboard.propTypes = {
+  getClaims: PropTypes.func.isRequired,
+  claim: PropTypes.object.isRequired,
+  errors: PropTypes.object.isRequired
+};
+
+const mapStateToProps = state => ({
+  claim: state.claim,
+  errors: state.errors
+});
+
+export default connect(
+  mapStateToProps,
+  { getClaims }
+)(Dashboard);

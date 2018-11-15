@@ -1,20 +1,23 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
 
-import Header from "../layout/Header";
-import TopHeader from "../layout/TopHeader";
-import Footer from "../layout/Footer";
 import ProfileTop from "./ProfileTop";
 import ProfileSocial from "./ProfileSocial";
 import ShortCut from "../dashboard/ShortCut";
 import RecentActivities from "../dashboard/RecentActivities";
-import Claims from "../claims/Claims";
+import ClaimsFeed from "../claims/ClaimsFeed";
 import Education from "./Education";
 import Experience from "./Experience";
 import Skills from "./Skills";
 import EditProfile from "./edit-profile/EditProfile";
 import AccountSettings from "./accountSettings/AccountSettings";
+import Spinner from "../common/Spinner";
 
-export default class Profile extends Component {
+import { getProfileByHandle } from "../../actions/profileAction";
+import { getClaimsByHandle } from "../../actions/claimsActions";
+
+class Profile extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -23,15 +26,30 @@ export default class Profile extends Component {
     this.handleComponent = this.handleComponent.bind(this);
   }
 
+  componentDidMount() {
+    console.log(this.props.match.params.handle);
+    if (this.props.match.params.handle) {
+      this.props.getProfileByHandle(this.props.match.params.handle);
+      this.props.getClaimsByHandle(this.props.match.params.handle);
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.profile.profile === null && this.props.profile.loading) {
+      this.props.history.push("/not-found");
+    }
+  }
+
   handleComponent(num) {
-    console.log(num);
     this.setState({ componentNumber: num });
   }
 
   renderSwitch(param) {
+    const { claims } = this.props.claim;
+
     switch (param) {
       case 0:
-        return <Claims />;
+        return <ClaimsFeed claims={claims} />;
       case 1:
         return <Education />;
       case 2:
@@ -44,14 +62,33 @@ export default class Profile extends Component {
         return <AccountSettings />;
 
       default:
-        return <Claims />;
+        return <ClaimsFeed claims={claims} />;
     }
   }
 
   render() {
+    const { profile, loading } = this.props.profile;
+    let profileContent;
+
+    if (profile === null || loading) {
+      profileContent = <Spinner />;
+    } else {
+      // Check if logged in user has profile data
+      if (Object.keys(profile).length > 0) {
+        profileContent = (
+          <ProfileTop
+            handleComponent={this.handleComponent}
+            profile={profile}
+          />
+        );
+      } else {
+        // User is logged in but has no profile
+        profileContent = <div />;
+      }
+    }
     return (
       <div>
-        <ProfileTop handleComponent={this.handleComponent} />
+        {profileContent}
         <section>
           <div class="gap gray-bg">
             <div class="container-fluid">
@@ -80,3 +117,19 @@ export default class Profile extends Component {
     );
   }
 }
+Profile.propTypes = {
+  getProfileByHandle: PropTypes.func.isRequired,
+  getClaimsByHandle: PropTypes.func.isRequired,
+  claim: PropTypes.object.isRequired,
+  profile: PropTypes.object.isRequired
+};
+
+const mapStateToProps = state => ({
+  claim: state.claim,
+  profile: state.profile
+});
+
+export default connect(
+  mapStateToProps,
+  { getProfileByHandle, getClaimsByHandle }
+)(Profile);

@@ -1,21 +1,63 @@
+import React, { Component } from "react";
+import { Link } from "react-router-dom";
+import { connect } from "react-redux";
 import PropTypes from "prop-types";
 
-import React, { Component } from "react";
+import { documentUpload } from "../../actions/profileAction";
 
 class ProfileTop extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      fileupload: null,
+      message: null,
       active: 0
     };
+
+    this.onChange = this.onChange.bind(this);
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.errors) {
+      this.setState({ errors: nextProps.errors });
+    }
+  }
+
+  onChange(e) {
+    const fd = new FormData();
+
+    if (e.target.files[0] === null || this.props.auth.user === null) {
+      this.setState({ errors: { fileUpload: "File Field can not be Empty." } });
+    } else {
+      this.setState({
+        errors: {},
+        fileupload: null,
+        message: null
+      });
+      fd.append("fileUpload", e.target.files[0], e.target.files[0].name);
+
+      console.log(e.target.files[0]);
+      this.props.documentUpload(
+        fd,
+        this.props.auth.user.identity.accounts[0].name
+      );
+    }
+  }
   render() {
+    const { profile } = this.props.profile;
+    console.log(profile);
     return (
       <section>
         <div class="feature-photo">
           <figure>
-            <img src="images/resources/timeline-1.jpg" alt="" />
+            <img
+              src={
+                profile.timeline
+                  ? profile.timeline
+                  : "../images/resources/timeline-1.jpg"
+              }
+              alt=""
+            />
           </figure>
           <form class="edit-phto">
             <i class="fa fa-camera-retro" />
@@ -29,12 +71,25 @@ class ProfileTop extends Component {
               <div class="col-lg-2 col-sm-3">
                 <div class="user-avatar">
                   <figure>
-                    <img src="images/resources/user-avatar.jpg" alt="" />
+                    <img
+                      src={
+                        profile.avatar !== null
+                          ? `http://localhost:4000/${profile.avatar}`
+                          : "../images/resources/user-avatar.jpg"
+                      }
+                      alt=""
+                    />
                     <form class="edit-phto">
                       <i class="fa fa-camera-retro" />
                       <label class="fileContainer">
                         Edit Display Photo
-                        <input type="file" />
+                        <input
+                          type="file"
+                          id="file"
+                          type="file"
+                          accept=".png, .jpg, .jpeg"
+                          onChange={this.onChange}
+                        />
                       </label>
                     </form>
                   </figure>
@@ -44,8 +99,9 @@ class ProfileTop extends Component {
                 <div class="timeline-info">
                   <ul>
                     <li class="admin-name">
-                      <h5>Janice Griffith</h5>
-                      <span>Group Admin</span>
+                      <h5>{profile.user}</h5>
+                      <span>{profile.bio}</span>
+                      <span>{profile.created_at}</span>
                     </li>
                     <li>
                       <a
@@ -127,7 +183,17 @@ class ProfileTop extends Component {
 }
 
 ProfileTop.propTypes = {
-  handleComponent: PropTypes.func.isRequired
+  handleComponent: PropTypes.func.isRequired,
+  documentUpload: PropTypes.func.isRequired,
+  profile: PropTypes.object.isRequired
 };
 
-export default ProfileTop;
+const mapStateToProps = state => ({
+  profile: state.profile,
+  auth: state.auth
+});
+
+export default connect(
+  mapStateToProps,
+  { documentUpload }
+)(ProfileTop);

@@ -1,6 +1,7 @@
-async function createClaim(state, payload, blockInfo, context) {
+async function claim(state, payload, blockInfo, context) {
   const Profile = state.profile;
   const Claim = state.claim;
+  console.log(payload.data);
   try {
     let profile = await Profile.findOne({
       user: payload.data.user
@@ -43,4 +44,4 @@ async function createClaim(state, payload, blockInfo, context) {
   }
 }
 
-export default createClaim;
+export default claim;

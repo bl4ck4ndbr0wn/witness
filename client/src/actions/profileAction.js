@@ -5,14 +5,16 @@ import {
   GET_PROFILE,
   GET_PROFILES,
   PROFILE_LOADING,
-  CLEAR_CURRENT_PROFILE
+  CLEAR_CURRENT_PROFILE,
+  GET_ERRORS
 } from "./types";
 
+const url = "http://localhost:4000/api/v1";
 // Get profile by handle
 export const getProfileByHandle = handle => dispatch => {
   dispatch(setProfileLoading());
   axios
-    .get(`/v1/witness/profile/handle/${handle}`)
+    .get(`${url}/profile/user/${handle}`)
     .then(res =>
       dispatch({
         type: GET_PROFILE,
@@ -31,7 +33,7 @@ export const getProfileByHandle = handle => dispatch => {
 export const getProfiles = () => dispatch => {
   dispatch(setProfileLoading());
   axios
-    .get("/v1/witness/profile/all")
+    .get(`${url}/profile/all`)
     .then(res =>
       dispatch({
         type: GET_PROFILES,
@@ -42,6 +44,24 @@ export const getProfiles = () => dispatch => {
       dispatch({
         type: GET_PROFILES,
         payload: null
+      })
+    );
+};
+
+// Upload Documents
+export const documentUpload = (imageUpload, user, history) => dispatch => {
+  axios
+    .post(`${url}/profile/photo/${user}`, imageUpload)
+    .then(res =>
+      dispatch({
+        type: GET_PROFILE,
+        payload: res.data
+      })
+    )
+    .catch(err =>
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data
       })
     );
 };

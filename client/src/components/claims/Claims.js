@@ -17,7 +17,12 @@ export default function Claims({}) {
             <span>published: june,2 2018 19:PM</span>
           </div>
           <div class="post-meta">
-            <img src="images/resources/user-post.jpg" alt="" />
+            <div class="description">
+              <p>
+                World's most beautiful car in Curabitur, you can book your test
+                drive by our official website
+              </p>
+            </div>
             <div class="we-video-info">
               <ul>
                 <li>
@@ -90,12 +95,6 @@ export default function Claims({}) {
                   </div>
                 </li>
               </ul>
-            </div>
-            <div class="description">
-              <p>
-                World's most beautiful car in Curabitur, you can book your test
-                drive by our official website
-              </p>
             </div>
           </div>
         </div>

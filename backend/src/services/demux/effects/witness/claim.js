@@ -1,4 +1,5 @@
 function claim(state, payload, blockInfo, context) {
+  console.log(payload.data);
   const claim = {
     timestamp: payload.data.timestamp,
     user: payload.data.user,

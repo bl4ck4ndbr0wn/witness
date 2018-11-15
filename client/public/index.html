@@ -1,38 +1,42 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <meta name="theme-color" content="#000000" />
+    <meta name="description" content="" />
+    <meta name="author" content="Alpha Nganga" />
 
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="theme-color" content="#000000">
-  <meta name="description" content="">
-  <meta name="author" content="Alpha Nganga">
+    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
 
-  <link rel="manifest" href="%PUBLIC_URL%/manifest.json">
+    <title>EOSWitnessio | Manage Your Career</title>
 
+    <link rel="stylesheet" href="%PUBLIC_URL%/css/main.min.css" />
+    <link rel="stylesheet" href="%PUBLIC_URL%/css/style.css" />
+    <link rel="stylesheet" href="%PUBLIC_URL%/css/color.css" />
+    <link rel="stylesheet" href="%PUBLIC_URL%/css/responsive.css" />
+  </head>
 
-  <title>EOSWitnessio | Manage Your Career</title>
+  <body>
+    <noscript> You need to enable JavaScript to run this app. </noscript>
+    <div id="root"></div>
 
+    <script src="%PUBLIC_URL%/js/main.min.js"></script>
+    <script src="%PUBLIC_URL%/js/script.js"></script>
+    <script src="%PUBLIC_URL%/js/map-init.js"></script>
 
-  <link rel="stylesheet" href="%PUBLIC_URL%/css/main.min.css">
-  <link rel="stylesheet" href="%PUBLIC_URL%/css/style.css">
-  <link rel="stylesheet" href="%PUBLIC_URL%/css/color.css">
-  <link rel="stylesheet" href="%PUBLIC_URL%/css/responsive.css">
+    <script>
+      $("#main").click(function() {
+        $("#mini-fab").toggleClass("hidden");
+      });
 
-
-</head>
-
-<body>
-  <noscript>
-    You need to enable JavaScript to run this app.
-  </noscript>
-  <div id="root"></div>
-
-
-  <script src="%PUBLIC_URL%/js/main.min.js"></script>
-  <script src="%PUBLIC_URL%/js/script.js"></script>
-  <script src="%PUBLIC_URL%/js/map-init.js"></script>
-
-</body>
-
+      $(document).ready(function() {
+        $('[data-toggle="tooltip"]').tooltip();
+      });
+      $.material.init();
+    </script>
+  </body>
 </html>
