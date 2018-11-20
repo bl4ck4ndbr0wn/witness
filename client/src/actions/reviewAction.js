@@ -3,47 +3,9 @@ import ScatterJS from "scatterjs-core";
 import ScatterEOS from "scatterjs-plugin-eosjs2";
 import axios from "axios";
 
-import { CLAIMS_LOADING, GET_CLAIMS } from "./types";
-
 const url = "http://localhost:4000/api/v1";
 
-export const getClaims = () => dispatch => {
-  dispatch(setClaimsLoading());
-  axios
-    .get(`${url}/claims/all`)
-    .then(res =>
-      dispatch({
-        type: GET_CLAIMS,
-        payload: res.data
-      })
-    )
-    .catch(err =>
-      dispatch({
-        type: GET_CLAIMS,
-        payload: null
-      })
-    );
-};
-// Get profile by handle
-export const getClaimsByHandle = handle => dispatch => {
-  dispatch(setClaimsLoading());
-  axios
-    .get(`${url}/claims/${handle}`)
-    .then(res =>
-      dispatch({
-        type: GET_CLAIMS,
-        payload: res.data
-      })
-    )
-    .catch(err =>
-      dispatch({
-        type: GET_CLAIMS,
-        payload: null
-      })
-    );
-};
-
-export const claim = data => {
+export const reviewClaim = data => {
   // Declare the type (EOS)
   ScatterJS.plugins(new ScatterEOS());
   const network = {
@@ -104,15 +66,14 @@ const process = function(scatter, network, data) {
 
   const dataFiles = {
     ...data,
-    user: scatter.identity.accounts[0].name,
-    timestamp: Math.floor(Date.now() / 1000)
+    reviewer: scatter.identity.accounts[0].name
   };
 
-  execute(api, scatter, "claim", dataFiles);
+  execute(api, scatter, "attest", dataFiles);
 };
 
 const execute = async (api, scatter, action_name, dataFiles) => {
-  console.log("claiming");
+  console.log("attesting....");
   try {
     const actorName = scatter.identity.accounts[0].name;
     const actorAuthority = scatter.identity.accounts[0].authority;
@@ -145,11 +106,4 @@ const execute = async (api, scatter, action_name, dataFiles) => {
 
   // Redirect to login
   window.location.href = "/";
-};
-
-// Profile loading
-export const setClaimsLoading = () => {
-  return {
-    type: CLAIMS_LOADING
-  };
 };

@@ -11,59 +11,10 @@ import { updateClaimForCreateAndEdit } from "../../utils/witness-updater";
 class Experience extends Component {
   constructor(props) {
     super(props);
-    const contractAccount = process.env.REACT_APP_EOSIO_CONTRACT_ACCOUNT;
-    this.eosio = new EOSIOClient(contractAccount);
-    this.io = new IOClient();
     this.state = {
-      createOpen: false,
-      claims: []
+      createOpen: false
     };
   }
-
-  // Enable Realtime updates via Socket.io
-  async componentDidMount() {
-    this.loadClaims();
-    this.io.onMessage("claim", claim => {
-      this.setState(prevState => ({
-        claims: updateClaimForCreateAndEdit(prevState, claim)
-      }));
-    });
-  }
-
-  // Load claims
-  loadClaims = async () => {
-    const response = await axios.get(
-      `${process.env.REACT_APP_API_URL}/v1/witness/profile/all`
-    );
-    this.setState({ claims: response.data.reverse() });
-  };
-
-  // Create a claim
-  createClaim = async claim => {
-    try {
-      const newClaim = {
-        ...claim,
-        claimant: process.env.REACT_APP_EOSIO_ACCOUNT
-      };
-      console.log("next make transaction");
-      await this.eosio.transaction(
-        process.env.REACT_APP_EOSIO_ACCOUNT,
-        "claim",
-        {
-          claimant: newClaim.claimant,
-          ...claim
-        }
-      );
-
-      console.log("next set state");
-
-      this.setState(prevState => ({
-        claims: updateClaimForCreateAndEdit(prevState, newClaim)
-      }));
-    } catch (err) {
-      console.error(err);
-    }
-  };
 
   toggleCreate = () => {
     this.setState(prevState => ({
@@ -74,11 +25,11 @@ class Experience extends Component {
   render() {
     return (
       <div>
-        <div class="central-meta item d-flex justify-content-between">
+        <div className="central-meta item d-flex justify-content-between">
           <h3>Experience</h3>
 
           <span
-            class="ti-plus main-menu btn btn-primary"
+            className="ti-plus main-menu btn btn-primary"
             data-ripple=""
             onClick={this.toggleCreate}
           >
@@ -90,7 +41,7 @@ class Experience extends Component {
         ) : (
           ""
         )}
-        {/* <Claims claims={this.state.claims} /> */}
+        <Claims />
       </div>
     );
   }

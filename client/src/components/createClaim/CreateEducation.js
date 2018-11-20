@@ -4,7 +4,6 @@ import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import PropTypes from "prop-types";
 
-import { createProfile } from "../../actions/profileAction";
 import { claim } from "../../actions/claimsActions";
 
 class CreateEducation extends Component {
@@ -72,17 +71,20 @@ class CreateEducation extends Component {
   render() {
     const { errors } = this.state;
 
-    const options = [{ label: "samooopeters", value: "samooopeters" }];
+    const options = [
+      { label: "samooopeters", value: "samooopeters" },
+      { label: "alphangangaa", value: "alphangangaa" }
+    ];
 
     return (
-      <div class="central-meta">
-        <div class="editing-info">
-          <h5 class="f-title">
-            <i class="ti-info-alt" /> Edit Education
+      <div className="central-meta">
+        <div className="editing-info">
+          <h5 className="f-title">
+            <i className="ti-info-alt" /> Edit Education
           </h5>
 
           <form onSubmit={this.onSubmit}>
-            <div class="form-group">
+            <div className="form-group">
               <input
                 id="input"
                 required="required"
@@ -92,12 +94,12 @@ class CreateEducation extends Component {
                 onChange={this.onChange}
                 error={errors.institute}
               />
-              <label class="control-label" for="input">
+              <label className="control-label" for="input">
                 Studying at
               </label>
-              <i class="mtrl-select" />
+              <i className="mtrl-select" />
             </div>
-            <div class="form-group">
+            <div className="form-group">
               <input
                 id="input"
                 required="required"
@@ -107,12 +109,12 @@ class CreateEducation extends Component {
                 onChange={this.onChange}
                 error={errors.level}
               />
-              <label class="control-label" for="input">
+              <label className="control-label" for="input">
                 Course Level
               </label>
-              <i class="mtrl-select" />
+              <i className="mtrl-select" />
             </div>
-            <div class="form-group half">
+            <div className="form-group half">
               <input
                 required="required"
                 name="from"
@@ -121,12 +123,12 @@ class CreateEducation extends Component {
                 onChange={this.onChange}
                 error={errors.from}
               />
-              <label class="control-label" for="input">
+              <label className="control-label" for="input">
                 From
               </label>
-              <i class="mtrl-select" />
+              <i className="mtrl-select" />
             </div>
-            <div class="form-group half">
+            <div className="form-group half">
               <input
                 required="required"
                 name="to"
@@ -135,12 +137,12 @@ class CreateEducation extends Component {
                 onChange={this.onChange}
                 error={errors.to}
               />
-              <label class="control-label" for="input">
+              <label className="control-label" for="input">
                 To
               </label>
-              <i class="mtrl-select" />
+              <i className="mtrl-select" />
             </div>
-            <div class="form-group">
+            <div className="form-group">
               <input
                 required="required"
                 name="field"
@@ -149,12 +151,12 @@ class CreateEducation extends Component {
                 onChange={this.onChange}
                 error={errors.field}
               />
-              <label class="control-label" for="input">
+              <label className="control-label" for="input">
                 Field of Study
               </label>
-              <i class="mtrl-select" />
+              <i className="mtrl-select" />
             </div>
-            <div class="form-group">
+            <div className="form-group">
               <textarea
                 rows="4"
                 id="textarea"
@@ -164,13 +166,13 @@ class CreateEducation extends Component {
                 onChange={this.onChange}
                 error={errors.description}
               />
-              <label class="control-label" for="textarea">
+              <label className="control-label" for="textarea">
                 Description
               </label>
-              <i class="mtrl-select" />
+              <i className="mtrl-select" />
             </div>
-            <div class="form-group">
-              {/* <label class="control-label" for="input">
+            <div className="form-group">
+              {/* <label className="control-label" for="input">
                 Witnesses
               </label> */}
               <Select
@@ -178,13 +180,13 @@ class CreateEducation extends Component {
                 options={options}
                 isMulti
               />
-              <i class="mtrl-select" />
+              <i className="mtrl-select" />
             </div>
-            <div class="submit-btns">
-              <button type="button" class="mtr-btn">
+            <div className="submit-btns">
+              <button type="button" className="mtr-btn">
                 <span>Cancel</span>
               </button>
-              <button type="submit" class="mtr-btn">
+              <button type="submit" className="mtr-btn">
                 <span>Update</span>
               </button>
             </div>

@@ -13,7 +13,7 @@ const getAll = async (req, res) => {
 
 const getByuser = async (req, res) => {
   try {
-    const claim = await Claim.findOne({ user: req.params.user_id }).exec();
+    const claim = await Claim.find({ user: req.params.user_id }).exec();
     if (!claim) {
       errors.noclaim = "There is no claim for this user";
       res.status(404).json(errors);
@@ -61,8 +61,45 @@ const createClaim = (req, res) => {
       });
     });
   } catch (err) {
-    err => res.status(404).json(err);
+    res.status(404).json(err);
   }
 };
 
-export { getAll, createClaim, getByuser };
+const reviewClaim = async (req, res) => {
+  try {
+    Claim.findOne({
+      _id: {
+        timestamp: req.body.timestamp,
+        user: req.body.user
+      }
+    }).then(claim => {
+      if (!claim) {
+        errors.user = "Claim does not exists to review";
+        res.status(400).json(errors);
+      }
+      Profile.findOne({
+        user: req.body.reviewer
+      }).then(profile => {
+        let newReview = {
+          _id: {
+            timestamp: req.body.timestamp,
+            user: req.body.user
+          },
+          user: profile._id,
+          review: req.body.review,
+          rating: req.body.rating,
+          ipfs_path: req.body.ipfs_path,
+          reviewConfirmed: true
+        };
+
+        claim.reviews.unshift(newReview);
+
+        claim.save().then(claim => res.json(claim));
+      });
+    });
+  } catch (err) {
+    res.status(404).json(err);
+  }
+};
+
+export { getAll, createClaim, getByuser, reviewClaim };

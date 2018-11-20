@@ -27,40 +27,40 @@ class Header extends Component {
     const { isAuthenticated, user, loading } = this.props.auth;
 
     return (
-      <div class="responsive-header">
-        <div class="mh-head first Sticky">
-          <span class="mh-btns-left">
-            <a class="" href="#menu">
-              <i class="fa fa-align-justify" />
+      <div className="responsive-header">
+        <div className="mh-head first Sticky">
+          <span className="mh-btns-left">
+            <a className="" href="#menu">
+              <i className="fa fa-align-justify" />
             </a>
           </span>
-          <span class="mh-text">
+          <span className="mh-text">
             <Link title="" to="/">
               <img src="images/logo.png" alt="" style={{ height: "34px" }} />
             </Link>
           </span>{" "}
           {isAuthenticated && !loading ? (
-            <span class="mh-btns-right">
+            <span className="mh-btns-right">
               <Link to="" title="login" data-ripple="">
-                <i class="ti-bell" />
+                <i className="ti-bell" />
               </Link>
             </span>
           ) : (
             ""
           )}
         </div>
-        <nav id="menu" class="res-menu">
+        <nav id="menu" className="res-menu">
           <ul>
             <li>
               <Link to="/" title="Home" data-ripple="">
-                <i class="ti-home" /> Home
+                <i className="ti-home" /> Home
               </Link>
             </li>
 
             {isAuthenticated && !loading ? (
               <li>
                 <a>
-                  <i class="ti-user" />
+                  <i className="ti-user" />
                   {user.identity.accounts[0].name} : @
                   {user.identity.accounts[0].authority}
                 </a>
@@ -71,7 +71,7 @@ class Header extends Component {
                       to={`/profile/${user.identity.accounts[0].name}`}
                       title=""
                     >
-                      <i class="ti-user" /> Profile
+                      <i className="ti-user" /> Profile
                     </Link>
                   </li>
                   <li>
@@ -82,7 +82,7 @@ class Header extends Component {
             ) : (
               <li>
                 <a onClick={this.onLogin}>
-                  <i class="ti-user" /> Login with scatter
+                  <i className="ti-user" /> Login with scatter
                 </a>
               </li>
             )}

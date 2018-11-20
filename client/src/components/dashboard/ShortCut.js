@@ -2,36 +2,36 @@ import React from "react";
 
 export default function ShortCut() {
   return (
-    <div class="widget">
-      <h4 class="widget-title">Shortcuts</h4>
-      <ul class="naves">
+    <div className="widget  stick-widget">
+      <h4 className="widget-title">Shortcuts</h4>
+      <ul className="naves">
         <li>
-          <i class="ti-clipboard" />
+          <i className="ti-clipboard" />
           <a href="newsfeed.html" title="">
             News feed
           </a>
         </li>
 
         <li>
-          <i class="ti-user" />
+          <i className="ti-user" />
           <a href="timeline-friends.html" title="">
             friends
           </a>
         </li>
         <li>
-          <i class="ti-image" />
+          <i className="ti-image" />
           <a href="timeline-photos.html" title="">
             Education
           </a>
         </li>
         <li>
-          <i class="ti-video-camera" />
+          <i className="ti-video-camera" />
           <a href="timeline-videos.html" title="">
             Experiences
           </a>
         </li>
         <li>
-          <i class="ti-comments-smiley" />
+          <i className="ti-comments-smiley" />
           <a href="messages.html" title="">
             Skills
           </a>

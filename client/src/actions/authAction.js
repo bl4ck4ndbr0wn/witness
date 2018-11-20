@@ -76,7 +76,7 @@ export const logoutUser = () => dispatch => {
   localStorage.removeItem("scatter");
   // Set current user to {} which will set isAuthenticated to false
   dispatch(setCurrentUser({}));
-  scatter.forgetIdentity();
+  // scatter.forgetIdentity();
   // Redirect to login
   window.location.href = "/";
 };

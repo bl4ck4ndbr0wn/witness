@@ -3,11 +3,11 @@ import React, { Component } from "react";
 export default class RecentActivities extends Component {
   render() {
     return (
-      <div class="widget">
-        <h4 class="widget-title">Recent Activity</h4>
-        <ul class="activitiez">
+      <div className="widget ">
+        <h4 className="widget-title">Recent Activity</h4>
+        <ul className="activitiez">
           <li>
-            <div class="activity-meta">
+            <div className="activity-meta">
               <i>10 hours Ago</i>
               <span>
                 <a href="index.html#" title="">
@@ -20,7 +20,7 @@ export default class RecentActivities extends Component {
             </div>
           </li>
           <li>
-            <div class="activity-meta">
+            <div className="activity-meta">
               <i>30 Days Ago</i>
               <span>
                 <a href="index.html#" title="">
@@ -30,7 +30,7 @@ export default class RecentActivities extends Component {
             </div>
           </li>
           <li>
-            <div class="activity-meta">
+            <div className="activity-meta">
               <i>2 Years Ago</i>
               <span>
                 <a href="index.html#" title="">

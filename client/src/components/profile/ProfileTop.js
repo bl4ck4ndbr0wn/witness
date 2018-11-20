@@ -45,10 +45,9 @@ class ProfileTop extends Component {
   }
   render() {
     const { profile } = this.props.profile;
-    console.log(profile);
     return (
       <section>
-        <div class="feature-photo">
+        <div className="feature-photo">
           <figure>
             <img
               src={
@@ -59,17 +58,17 @@ class ProfileTop extends Component {
               alt=""
             />
           </figure>
-          <form class="edit-phto">
-            <i class="fa fa-camera-retro" />
-            <label class="fileContainer">
+          <form className="edit-phto">
+            <i className="fa fa-camera-retro" />
+            <label className="fileContainer">
               Edit Cover Photo
               <input type="file" />
             </label>
           </form>
-          <div class="container-fluid">
-            <div class="row merged">
-              <div class="col-lg-2 col-sm-3">
-                <div class="user-avatar">
+          <div className="container-fluid">
+            <div className="row merged">
+              <div className="col-lg-2 col-sm-3">
+                <div className="user-avatar">
                   <figure>
                     <img
                       src={
@@ -79,9 +78,9 @@ class ProfileTop extends Component {
                       }
                       alt=""
                     />
-                    <form class="edit-phto">
-                      <i class="fa fa-camera-retro" />
-                      <label class="fileContainer">
+                    <form className="edit-phto">
+                      <i className="fa fa-camera-retro" />
+                      <label className="fileContainer">
                         Edit Display Photo
                         <input
                           type="file"
@@ -95,17 +94,17 @@ class ProfileTop extends Component {
                   </figure>
                 </div>
               </div>
-              <div class="col-lg-10 col-sm-9">
-                <div class="timeline-info">
+              <div className="col-lg-10 col-sm-9">
+                <div className="timeline-info">
                   <ul>
-                    <li class="admin-name">
+                    <li className="admin-name">
                       <h5>{profile.user}</h5>
                       <span>{profile.bio}</span>
                       <span>{profile.created_at}</span>
                     </li>
                     <li>
                       <a
-                        class={this.state.active === 0 ? "active" : ""}
+                        className={this.state.active === 0 ? "active" : ""}
                         title=""
                         data-ripple=""
                         onClick={() => {
@@ -116,7 +115,7 @@ class ProfileTop extends Component {
                         time line
                       </a>
                       <a
-                        class={this.state.active === 1 ? "active" : ""}
+                        className={this.state.active === 1 ? "active" : ""}
                         title=""
                         data-ripple=""
                         onClick={() => {
@@ -127,7 +126,7 @@ class ProfileTop extends Component {
                         Education
                       </a>
                       <a
-                        class={this.state.active === 2 ? "active" : ""}
+                        className={this.state.active === 2 ? "active" : ""}
                         title=""
                         data-ripple=""
                         onClick={() => {
@@ -138,7 +137,7 @@ class ProfileTop extends Component {
                         Experience
                       </a>
                       <a
-                        class={this.state.active === 3 ? "active" : ""}
+                        className={this.state.active === 3 ? "active" : ""}
                         title=""
                         data-ripple=""
                         onClick={() => {
@@ -149,7 +148,7 @@ class ProfileTop extends Component {
                         Skills
                       </a>
                       <a
-                        class={this.state.active === 4 ? "active" : ""}
+                        className={this.state.active === 4 ? "active" : ""}
                         title=""
                         data-ripple=""
                         onClick={() => {
@@ -160,7 +159,7 @@ class ProfileTop extends Component {
                         Edit Profile
                       </a>
                       <a
-                        class={this.state.active === 5 ? "active" : ""}
+                        className={this.state.active === 5 ? "active" : ""}
                         title=""
                         data-ripple=""
                         onClick={() => {

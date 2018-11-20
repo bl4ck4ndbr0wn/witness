@@ -5,8 +5,7 @@ import ClaimItem from "./ClaimItem";
 class ClaimsFeed extends Component {
   render() {
     const { claims } = this.props;
-
-    return claims.map(claim => <ClaimItem key={claim._id} claim={claim} />);
+    return claims.map(claim => <ClaimItem claim={claim} />);
   }
 }
 

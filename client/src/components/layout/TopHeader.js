@@ -37,25 +37,25 @@ class TopHeader extends Component {
     const { isAuthenticated, user, loading } = this.props.auth;
 
     return (
-      <div class="topbar stick">
-        <div class="logo">
+      <div className="topbar stick">
+        <div className="logo">
           <Link title="" to="/">
             <img src="images/logo.png" alt="" style={{ height: "34px" }} />
           </Link>
         </div>
 
-        <div class="top-area">
-          <ul class="main-menu">
+        <div className="top-area">
+          <ul className="main-menu">
             <li>
               <Link to="/" title="Home" data-ripple="">
-                <i class="ti-home" /> Home
+                <i className="ti-home" /> Home
               </Link>
             </li>
 
             {isAuthenticated && !loading ? (
               <li>
                 <a>
-                  <i class="ti-user" />
+                  <i className="ti-user" />
                   {user.identity.accounts[0].name} : @
                   {user.identity.accounts[0].authority}
                 </a>
@@ -66,7 +66,7 @@ class TopHeader extends Component {
                       to={`/profile/${user.identity.accounts[0].name}`}
                       title=""
                     >
-                      <i class="ti-user" /> Profile
+                      <i className="ti-user" /> Profile
                     </Link>
                   </li>
                   <li>
@@ -77,90 +77,90 @@ class TopHeader extends Component {
             ) : (
               <li>
                 <a onClick={this.onLogin}>
-                  <i class="ti-user" /> Login with scatter
+                  <i className="ti-user" /> Login with scatter
                 </a>
               </li>
             )}
           </ul>
-          <ul class="setting-area">
+          <ul className="setting-area">
             <li>
               <Link to="/" title="Home" data-ripple="">
-                <i class="ti-search" />
+                <i className="ti-search" />
               </Link>
-              <div class="searched">
-                <form method="post" class="form-search">
+              <div className="searched">
+                <form method="post" className="form-search">
                   <input type="text" placeholder="Search Friend" />
                   <button data-ripple>
-                    <i class="ti-search" />
+                    <i className="ti-search" />
                   </button>
                 </form>
               </div>
             </li>
             <li>
               <Link to="#" title="Notification" data-ripple="">
-                <i class="ti-bell" />
+                <i className="ti-bell" />
                 <span>20</span>
               </Link>
-              <div class="dropdowns">
+              <div className="dropdowns">
                 <span>4 New Notifications</span>
-                <ul class="drops-menu">
+                <ul className="drops-menu">
                   <li>
                     <Link to="notifications.html" title="">
                       <img src="images/resources/thumb-1.jpg" alt="" />
-                      <div class="mesg-meta">
+                      <div className="mesg-meta">
                         <h6>sarah Loren</h6>
                         <span>Hi, how r u dear ...?</span>
                         <i>2 min ago</i>
                       </div>
                     </Link>
-                    <span class="tag green">New</span>
+                    <span className="tag green">New</span>
                   </li>
                   <li>
                     <Link to="notifications.html" title="">
                       <img src="images/resources/thumb-2.jpg" alt="" />
-                      <div class="mesg-meta">
+                      <div className="mesg-meta">
                         <h6>Jhon doe</h6>
                         <span>Hi, how r u dear ...?</span>
                         <i>2 min ago</i>
                       </div>
                     </Link>
-                    <span class="tag red">Reply</span>
+                    <span className="tag red">Reply</span>
                   </li>
                   <li>
                     <Link to="notifications.html" title="">
                       <img src="images/resources/thumb-3.jpg" alt="" />
-                      <div class="mesg-meta">
+                      <div className="mesg-meta">
                         <h6>Andrew</h6>
                         <span>Hi, how r u dear ...?</span>
                         <i>2 min ago</i>
                       </div>
                     </Link>
-                    <span class="tag blue">Unseen</span>
+                    <span className="tag blue">Unseen</span>
                   </li>
                   <li>
                     <Link to="notifications.html" title="">
                       <img src="images/resources/thumb-4.jpg" alt="" />
-                      <div class="mesg-meta">
+                      <div className="mesg-meta">
                         <h6>Tom cruse</h6>
                         <span>Hi, how r u dear ...?</span>
                         <i>2 min ago</i>
                       </div>
                     </Link>
-                    <span class="tag">New</span>
+                    <span className="tag">New</span>
                   </li>
                   <li>
                     <Link to="notifications.html" title="">
                       <img src="images/resources/thumb-5.jpg" alt="" />
-                      <div class="mesg-meta">
+                      <div className="mesg-meta">
                         <h6>Amy</h6>
                         <span>Hi, how r u dear ...?</span>
                         <i>2 min ago</i>
                       </div>
                     </Link>
-                    <span class="tag">New</span>
+                    <span className="tag">New</span>
                   </li>
                 </ul>
-                <Link to="notifications.html" title="" class="more-mesg">
+                <Link to="notifications.html" title="" className="more-mesg">
                   view more
                 </Link>
               </div>

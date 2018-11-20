@@ -11,6 +11,9 @@ try {
       required: true,
       max: 40
     },
+    firstname: String,
+    lastname: String,
+    location: String,
     avatar: {
       type: String
     },

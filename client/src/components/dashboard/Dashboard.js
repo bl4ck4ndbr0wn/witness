@@ -24,41 +24,41 @@ class Dashboard extends Component {
     }
     return (
       <section>
-        <div class="gap gray-bg">
-          <div class="container-fluid">
-            <div class="row">
-              <div class="col-lg-12">
-                <div class="row" id="page-contents">
-                  <div class="col-lg-3">
-                    <aside class="sidebar static">
-                      <ShortCut />
+        <div className="gap gray-bg">
+          <div className="container-fluid">
+            <div className="row">
+              <div className="col-lg-12">
+                <div className="row" id="page-contents">
+                  <div className="col-lg-3">
+                    <aside className="sidebar static">
                       <RecentActivities />
+                      <ShortCut />
                     </aside>
                   </div>
 
-                  <div class="col-lg-6">
-                    <div class="loadMore">{claimContent}</div>
+                  <div className="col-lg-6">
+                    <div className="loadMore">{claimContent}</div>
                   </div>
 
-                  <div class="col-lg-3">
-                    <aside class="sidebar static">
-                      <div class="widget">
-                        <div class="banner medium-opacity bluesh">
+                  <div className="col-lg-3">
+                    <aside className="sidebar static">
+                      <div className="widget">
+                        <div className="banner medium-opacity bluesh">
                           <div
-                            class="bg-image"
+                            className="bg-image"
                             style={{
                               backgroundImage:
                                 "url(images/resources/baner-widgetbg.jpg)"
                             }}
                           />
-                          <div class="baner-top">
+                          <div className="baner-top">
                             <span>
                               <img alt="" src="images/book-icon.png" />
                             </span>
-                            <i class="fa fa-ellipsis-h" />
+                            <i className="fa fa-ellipsis-h" />
                           </div>
-                          <div class="banermeta">
-                            <p>create your own favourit page.</p>
+                          <div className="banermeta">
+                            <p>create your own Claims.</p>
                             <span>like them all</span>
                             <a data-ripple="" title="" href="#">
                               start now!

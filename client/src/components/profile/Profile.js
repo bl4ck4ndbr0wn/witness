@@ -27,7 +27,6 @@ class Profile extends Component {
   }
 
   componentDidMount() {
-    console.log(this.props.match.params.handle);
     if (this.props.match.params.handle) {
       this.props.getProfileByHandle(this.props.match.params.handle);
       this.props.getClaimsByHandle(this.props.match.params.handle);
@@ -47,22 +46,31 @@ class Profile extends Component {
   renderSwitch(param) {
     const { claims } = this.props.claim;
 
-    switch (param) {
-      case 0:
-        return <ClaimsFeed claims={claims} />;
-      case 1:
-        return <Education />;
-      case 2:
-        return <Experience />;
-      case 3:
-        return <Skills />;
-      case 4:
-        return <EditProfile />;
-      case 5:
-        return <AccountSettings />;
+    if (claims === null) {
+      return "";
+    } else {
+      const education = claims.find(edu => edu.category === "Education");
+      const experience = claims.find(edu => edu.category === "Experience");
+      const skills = claims.find(edu => edu.category === "Skills");
+      console.log(education);
 
-      default:
-        return <ClaimsFeed claims={claims} />;
+      switch (param) {
+        case 0:
+          return <ClaimsFeed claims={claims} />;
+        case 1:
+          return <Education />;
+        case 2:
+          return <Experience />;
+        case 3:
+          return <Skills />;
+        case 4:
+          return <EditProfile />;
+        case 5:
+          return <AccountSettings />;
+
+        default:
+          return <ClaimsFeed claims={claims} />;
+      }
     }
   }
 
@@ -90,20 +98,20 @@ class Profile extends Component {
       <div>
         {profileContent}
         <section>
-          <div class="gap gray-bg">
-            <div class="container-fluid">
-              <div class="row">
-                <div class="col-lg-12">
-                  <div class="row" id="page-contents">
-                    <div class="col-lg-3">
-                      <aside class="sidebar static">
+          <div className="gap gray-bg">
+            <div className="container-fluid">
+              <div className="row">
+                <div className="col-lg-12">
+                  <div className="row" id="page-contents">
+                    <div className="col-lg-3">
+                      <aside className="sidebar static">
                         <ProfileSocial />
                         <ShortCut />
                         <RecentActivities />
                       </aside>
                     </div>
-                    <div class="col-lg-9">
-                      <div class="loadMore">
+                    <div className="col-lg-9">
+                      <div className="loadMore">
                         {this.renderSwitch(this.state.componentNumber)}
                       </div>
                     </div>

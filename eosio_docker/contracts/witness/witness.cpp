@@ -25,12 +25,12 @@ ACTION witness::attest(const uint64_t &timestamp, const eosio::name &user, const
 {
     eosio_assert(review.size() < 280, "attestation should not exceed 280 characters");
 
-    auto _attestations_index = _attestations.get_index<eosio::name("bykey")>();
+    auto _claims_index = _claims.get_index<eosio::name("bykey")>();
 
     uint128_t key = static_cast<uint128_t>(user.value) << 64 | timestamp;
 
-    auto rev = _attestations_index.find(key);
-    eosio_assert(rev != _attestations_index.end(), "claim not found");
+    auto rev = _claims_index.find(key);
+    eosio_assert(rev != _claims_index.end(), "claim not found");
     _attestations.emplace(get_self(), [&](auto &a) {
         a.id = _attestations.available_primary_key();
         a.key = key;

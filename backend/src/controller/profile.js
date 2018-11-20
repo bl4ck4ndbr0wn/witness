@@ -51,7 +51,6 @@ const createProfile = (req, res) => {
   if (Validator.isEmpty(req.body.user)) {
     errors.user = "Profile handle is required";
   }
-
   if (!isEmpty(errors)) {
     // Return any errors with 400 status
     return res.status(400).json(errors);
@@ -60,6 +59,11 @@ const createProfile = (req, res) => {
   // Get fields
   const profileFields = {};
   profileFields.user = req.body.user;
+
+  if (req.body.firstname) profileFields.firstname = req.body.firstname;
+  if (req.body.lastname) profileFields.lastname = req.body.lastname;
+  if (req.body.location) profileFields.location = req.body.location;
+
   if (req.body.bio) profileFields.bio = req.body.bio;
   if (req.body.avatar) profileFields.avatar = req.body.avatar;
 

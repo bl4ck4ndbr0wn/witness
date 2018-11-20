@@ -67,8 +67,16 @@ export const documentUpload = (imageUpload, user, history) => dispatch => {
 };
 
 // Create Profile
-export const createProfile = async (profileData, history) => dispatch => {
-  console.log(profileData);
+export const createProfile = (profileData, history) => dispatch => {
+  axios
+    .post(`${url}/profile`, profileData)
+    .then(res => history.push("/"))
+    .catch(err =>
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data
+      })
+    );
 };
 
 // Profile loading

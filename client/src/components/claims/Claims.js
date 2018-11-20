@@ -2,13 +2,13 @@ import React from "react";
 
 export default function Claims({}) {
   return (
-    <div class="central-meta item">
-      <div class="user-post">
-        <div class="friend-info">
+    <div className="central-meta item">
+      <div className="user-post">
+        <div className="friend-info">
           <figure>
             <img src="images/resources/friend-avatar10.jpg" alt="" />
           </figure>
-          <div class="friend-name">
+          <div className="friend-name">
             <ins>
               <a href="time-line.html" title="">
                 Janice Griffith
@@ -16,79 +16,79 @@ export default function Claims({}) {
             </ins>
             <span>published: june,2 2018 19:PM</span>
           </div>
-          <div class="post-meta">
-            <div class="description">
+          <div className="post-meta">
+            <div className="description">
               <p>
                 World's most beautiful car in Curabitur, you can book your test
                 drive by our official website
               </p>
             </div>
-            <div class="we-video-info">
+            <div className="we-video-info">
               <ul>
                 <li>
-                  <span class="comment" data-toggle="tooltip" title="Comments">
-                    <i class="fa fa-comments-o" />
+                  <span className="comment" data-toggle="tooltip" title="Comments">
+                    <i className="fa fa-comments-o" />
                     <ins>52</ins>
                   </span>
                 </li>
-                <li class="social-media">
-                  <div class="menu">
-                    <div class="btn trigger">
-                      <i class="fa fa-share-alt" />
+                <li className="social-media">
+                  <div className="menu">
+                    <div className="btn trigger">
+                      <i className="fa fa-share-alt" />
                     </div>
-                    <div class="rotater">
-                      <div class="btn btn-icon">
+                    <div className="rotater">
+                      <div className="btn btn-icon">
                         <a href="index.html#" title="">
-                          <i class="fa fa-html5" />
+                          <i className="fa fa-html5" />
                         </a>
                       </div>
                     </div>
-                    <div class="rotater">
-                      <div class="btn btn-icon">
+                    <div className="rotater">
+                      <div className="btn btn-icon">
                         <a href="index.html#" title="">
-                          <i class="fa fa-facebook" />
+                          <i className="fa fa-facebook" />
                         </a>
                       </div>
                     </div>
-                    <div class="rotater">
-                      <div class="btn btn-icon">
+                    <div className="rotater">
+                      <div className="btn btn-icon">
                         <a href="index.html#" title="">
-                          <i class="fa fa-google-plus" />
+                          <i className="fa fa-google-plus" />
                         </a>
                       </div>
                     </div>
-                    <div class="rotater">
-                      <div class="btn btn-icon">
+                    <div className="rotater">
+                      <div className="btn btn-icon">
                         <a href="index.html#" title="">
-                          <i class="fa fa-twitter" />
+                          <i className="fa fa-twitter" />
                         </a>
                       </div>
                     </div>
-                    <div class="rotater">
-                      <div class="btn btn-icon">
+                    <div className="rotater">
+                      <div className="btn btn-icon">
                         <a href="index.html#" title="">
-                          <i class="fa fa-css3" />
+                          <i className="fa fa-css3" />
                         </a>
                       </div>
                     </div>
-                    <div class="rotater">
-                      <div class="btn btn-icon">
+                    <div className="rotater">
+                      <div className="btn btn-icon">
                         <a href="index.html#" title="">
-                          <i class="fa fa-instagram" />
+                          <i className="fa fa-instagram" />
                         </a>
                       </div>
                     </div>
-                    <div class="rotater">
-                      <div class="btn btn-icon">
+                    <div className="rotater">
+                      <div className="btn btn-icon">
                         <a href="index.html#" title="">
-                          <i class="fa fa-dribbble" />
+                          <i className="fa fa-dribbble" />
                         </a>
                       </div>
                     </div>
-                    <div class="rotater">
-                      <div class="btn btn-icon">
+                    <div className="rotater">
+                      <div className="btn btn-icon">
                         <a href="index.html#" title="">
-                          <i class="fa fa-pinterest" />
+                          <i className="fa fa-pinterest" />
                         </a>
                       </div>
                     </div>
@@ -98,22 +98,22 @@ export default function Claims({}) {
             </div>
           </div>
         </div>
-        <div class="coment-area">
-          <ul class="we-comet">
+        <div className="coment-area">
+          <ul className="we-comet">
             <li>
-              <div class="comet-avatar">
+              <div className="comet-avatar">
                 <img src="images/resources/comet-1.jpg" alt="" />
               </div>
-              <div class="we-comment">
-                <div class="coment-head">
+              <div className="we-comment">
+                <div className="coment-head">
                   <h5>
                     <a href="time-line.html" title="">
                       Jason borne
                     </a>
                   </h5>
                   <span>1 year ago</span>
-                  <a class="we-reply" href="index.html#" title="Reply">
-                    <i class="fa fa-reply" />
+                  <a className="we-reply" href="index.html#" title="Reply">
+                    <i className="fa fa-reply" />
                   </a>
                 </div>
                 <p>
@@ -124,31 +124,31 @@ export default function Claims({}) {
               </div>
             </li>
             <li>
-              <div class="comet-avatar">
+              <div className="comet-avatar">
                 <img src="images/resources/comet-1.jpg" alt="" />
               </div>
-              <div class="we-comment">
-                <div class="coment-head">
+              <div className="we-comment">
+                <div className="coment-head">
                   <h5>
                     <a href="time-line.html" title="">
                       Donald Trump
                     </a>
                   </h5>
                   <span>1 week ago</span>
-                  <a class="we-reply" href="index.html#" title="Reply">
-                    <i class="fa fa-reply" />
+                  <a className="we-reply" href="index.html#" title="Reply">
+                    <i className="fa fa-reply" />
                   </a>
                 </div>
                 <p>
                   we are working for the dance and sing songs. this video is
                   very awesome for the youngster. please vote this video and
                   like our channel
-                  <i class="em em-smiley" />
+                  <i className="em em-smiley" />
                 </p>
               </div>
             </li>
             <li>
-              <a href="index.html#" title="" class="showmore underline">
+              <a href="index.html#" title="" className="showmore underline">
                 more Attestations
               </a>
             </li>{" "}

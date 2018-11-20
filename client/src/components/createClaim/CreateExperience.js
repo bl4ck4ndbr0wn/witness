@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import PropTypes from "prop-types";
 
-import { createProfile } from "../../actions/profileAction";
+import { claim } from "../../actions/claimsActions";
 
 class CreateExperience extends Component {
   constructor() {
@@ -56,36 +56,30 @@ class CreateExperience extends Component {
 
     const content = `${title} at ${company} in ${location} from ${from} to ${to}.${headline} doing ${description}`;
 
-    const profileData = {
+    let data = {
       content,
       category,
+      ipfs_path: "",
       witnesses
     };
-
-    this.props.createClaim(profileData);
-    // this.props.createProfile(profileData, this.props.history);
+    claim(data);
   }
   render() {
     const { errors } = this.state;
-
     const options = [
-      { label: "bobross", value: "bobross" },
-      { label: "janesmith", value: "janesmith" },
-      { label: "sampeters", value: "sampeters" },
-      { label: "willthompson", value: "willthompson" },
-      { label: "sarabrown", value: "sarabrown" },
-      { label: "lisawalters", value: "lisawalters" }
+      { label: "samooopeters", value: "samooopeters" },
+      { label: "alphangangaa", value: "alphangangaa" }
     ];
 
     return (
-      <div class="central-meta">
-        <div class="editing-info">
-          <h5 class="f-title">
-            <i class="ti-info-alt" /> Edit work & Education
+      <div className="central-meta">
+        <div className="editing-info">
+          <h5 className="f-title">
+            <i className="ti-info-alt" /> Edit work & Education
           </h5>
 
           <form onSubmit={this.onSubmit}>
-            <div class="form-group">
+            <div className="form-group">
               <input
                 id="input"
                 required="required"
@@ -95,12 +89,12 @@ class CreateExperience extends Component {
                 onChange={this.onChange}
                 error={errors.title}
               />
-              <label class="control-label" for="input">
+              <label className="control-label" for="input">
                 Title
               </label>
-              <i class="mtrl-select" />
+              <i className="mtrl-select" />
             </div>
-            <div class="form-group">
+            <div className="form-group">
               <input
                 id="input"
                 required="required"
@@ -110,12 +104,12 @@ class CreateExperience extends Component {
                 onChange={this.onChange}
                 error={errors.company}
               />
-              <label class="control-label" for="input">
+              <label className="control-label" for="input">
                 Company
               </label>
-              <i class="mtrl-select" />
+              <i className="mtrl-select" />
             </div>
-            <div class="form-group">
+            <div className="form-group">
               <input
                 required="required"
                 name="location"
@@ -124,12 +118,12 @@ class CreateExperience extends Component {
                 onChange={this.onChange}
                 error={errors.location}
               />
-              <label class="control-label" for="input">
+              <label className="control-label" for="input">
                 Location
               </label>
-              <i class="mtrl-select" />
+              <i className="mtrl-select" />
             </div>
-            <div class="form-group half">
+            <div className="form-group half">
               <input
                 required="required"
                 name="from"
@@ -138,12 +132,12 @@ class CreateExperience extends Component {
                 onChange={this.onChange}
                 error={errors.from}
               />
-              <label class="control-label" for="input">
+              <label className="control-label" for="input">
                 From
               </label>
-              <i class="mtrl-select" />
+              <i className="mtrl-select" />
             </div>
-            <div class="form-group half">
+            <div className="form-group half">
               <input
                 required="required"
                 name="to"
@@ -152,12 +146,12 @@ class CreateExperience extends Component {
                 onChange={this.onChange}
                 error={errors.to}
               />
-              <label class="control-label" for="input">
+              <label className="control-label" for="input">
                 To
               </label>
-              <i class="mtrl-select" />
+              <i className="mtrl-select" />
             </div>
-            <div class="form-group">
+            <div className="form-group">
               <textarea
                 rows="4"
                 id="textarea"
@@ -167,12 +161,12 @@ class CreateExperience extends Component {
                 onChange={this.onChange}
                 error={errors.headline}
               />
-              <label class="control-label" for="textarea">
+              <label className="control-label" for="textarea">
                 Headline
               </label>
-              <i class="mtrl-select" />
+              <i className="mtrl-select" />
             </div>
-            <div class="form-group">
+            <div className="form-group">
               <textarea
                 rows="4"
                 id="textarea"
@@ -182,27 +176,27 @@ class CreateExperience extends Component {
                 onChange={this.onChange}
                 error={errors.description}
               />
-              <label class="control-label" for="textarea">
+              <label className="control-label" for="textarea">
                 Description
               </label>
-              <i class="mtrl-select" />
+              <i className="mtrl-select" />
             </div>
-            <div class="form-group">
+            <div className="form-group">
               <Select
                 onChange={opt => this.handleSelectOnChange(opt)}
                 options={options}
                 isMulti
               />
-              <label class="control-label" for="input">
+              <label className="control-label" for="input">
                 Witnesses
               </label>
-              <i class="mtrl-select" />
+              <i className="mtrl-select" />
             </div>
-            <div class="submit-btns">
-              <button type="button" class="mtr-btn">
+            <div className="submit-btns">
+              <button type="button" className="mtr-btn">
                 <span>Cancel</span>
               </button>
-              <button type="submit" class="mtr-btn">
+              <button type="submit" className="mtr-btn">
                 <span>Update</span>
               </button>
             </div>
@@ -213,23 +207,4 @@ class CreateExperience extends Component {
   }
 }
 
-CreateExperience.propTypes = {
-  createClaim: PropTypes.func.isRequired
-};
-
 export default CreateExperience;
-
-// CreateExperience.propTypes = {
-//   profile: PropTypes.object.isRequired,
-//   errors: PropTypes.object.isRequired
-// };
-
-// const mapStateToProps = state => ({
-//   profile: state.profile,
-//   errors: state.errors
-// });
-
-// export default connect(
-//   mapStateToProps,
-//   { createProfile }
-// )(withRouter(CreateExperience));

@@ -12,18 +12,9 @@ class Education extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      createOpen: false,
-      claims: []
+      createOpen: false
     };
   }
-
-  // Load claims
-  loadClaims = async () => {
-    const response = await axios.get(
-      `${process.env.REACT_APP_API_URL}/api/v1/profile/all`
-    );
-    this.setState({ claims: response.data.reverse() });
-  };
 
   toggleCreate = () => {
     this.setState(prevState => ({
@@ -35,11 +26,11 @@ class Education extends Component {
     console.log(this.state.claims);
     return (
       <div>
-        <div class="central-meta item d-flex justify-content-between">
+        <div className="central-meta item d-flex justify-content-between">
           <h3>Education</h3>
 
           <span
-            class="ti-plus main-menu btn btn-primary"
+            className="ti-plus main-menu btn btn-primary"
             data-ripple=""
             onClick={this.toggleCreate}
           >

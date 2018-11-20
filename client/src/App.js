@@ -28,7 +28,7 @@ class App extends Component {
     return (
       <Provider store={store}>
         <Router>
-          <div class="theme-layout">
+          <div className="theme-layout">
             <Header />
             <TopHeader />
             <React.Fragment>

@@ -3,43 +3,84 @@ import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 
-class ClaimItem extends Component {
-  render() {
-    const { claim, auth } = this.props;
+import { getProfileByHandle } from "../../actions/profileAction";
 
+import Review from "./review/Review";
+
+class ClaimItem extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      createOpen: false
+    };
+  }
+
+  componentDidMount() {
+    this.props.getProfileByHandle(this.props.claim._id.user);
+  }
+
+  toggleCreate = () => {
+    this.setState(prevState => ({
+      createOpen: !prevState.createOpen
+    }));
+  };
+  render() {
+    const { claim, auth, profile } = this.props;
+    let profileData;
+    if (profile.profile === null || profile.loading) {
+      profileData = "images/resources/user-avatar.jpg";
+    } else {
+      // Check if logged in user has profile data
+      if (
+        Object.keys(profile.profile).length > 0 &&
+        profile.profile.avatar !== undefined
+      ) {
+        profileData = `http://localhost:4000/${profile.profile.avatar}`;
+      } else {
+        profileData = "images/resources/user-avatar.jpg";
+      }
+    }
+
+    let attesters;
+    if (claim.witness === null || claim.witnesses === undefined) {
+      attesters = "";
+    } else {
+      if (auth.isAuthenticated) {
+        attesters = claim.witnesses.find(
+          witness => witness === auth.user.identity.accounts[0].name
+        );
+      }
+    }
     const reviewSection = claim.reviews.map(review => (
       <li>
-        <div class="comet-avatar">
+        <div className="comet-avatar">
           <img src="images/resources/comet-1.jpg" alt="" />
         </div>
-        <div class="we-comment">
-          <div class="coment-head">
+        <div className="we-comment">
+          <div className="coment-head">
             <h5>
               <a href="time-line.html" title="">
-                Jason borne
+                {review.user}
               </a>
             </h5>
-            <span>1 year ago</span>
-            <a class="we-reply" href="index.html#" title="Reply">
-              <i class="fa fa-reply" />
+            <span>{review.created_on}</span>
+            <a className="we-reply" href="/" title="Reply">
+              <i className="fa fa-reply" />
             </a>
           </div>
-          <p>
-            we are working for the dance and sing songs. this car is very
-            awesome for the youngster. please vote this car and like our post
-          </p>
+          <p>{review.review}</p>
         </div>
       </li>
     ));
 
     return (
-      <div class="central-meta item">
-        <div class="user-post">
-          <div class="friend-info">
+      <div className="central-meta item">
+        <div className="user-post">
+          <div className="friend-info">
             <figure>
-              <img src="images/resources/friend-avatar10.jpg" alt="" />
+              <img src={profileData} alt="" />
             </figure>
-            <div class="friend-name">
+            <div className="friend-name">
               <ins>
                 <a href="time-line.html" title="">
                   {claim._id.user}
@@ -47,98 +88,103 @@ class ClaimItem extends Component {
               </ins>
               <span>published: {claim._id.timestamp}</span>
             </div>
-            <div class="post-meta">
-              <div class="description">
+            <div className="post-meta">
+              <div className="description">
                 <p>{claim.content}</p>
               </div>
-              <div class="we-video-info">
+              <div className="we-video-info">
                 <ul>
                   <li>
                     <span
-                      class="comment"
+                      className="comment"
                       data-toggle="tooltip"
                       title="Comments"
                     >
-                      <i class="fa fa-comments-o" />
+                      <i className="fa fa-comments-o" />
                       <ins>{claim.reviews.length}</ins>
                     </span>
                   </li>
-                  <li class="social-media">
-                    <div class="menu">
-                      <div class="btn trigger">
-                        <i class="fa fa-share-alt" />
+                  <li className="social-media">
+                    <div className="menu">
+                      <div className="btn trigger">
+                        <i className="fa fa-share-alt" />
                       </div>
-                      <div class="rotater">
-                        <div class="btn btn-icon">
-                          <a href="index.html#" title="">
-                            <i class="fa fa-html5" />
+                      <div className="rotater">
+                        <div className="btn btn-icon">
+                          <a href="/" title="">
+                            <i className="fa fa-html5" />
                           </a>
                         </div>
                       </div>
-                      <div class="rotater">
-                        <div class="btn btn-icon">
-                          <a href="index.html#" title="">
-                            <i class="fa fa-facebook" />
+                      <div className="rotater">
+                        <div className="btn btn-icon">
+                          <a href="/" title="">
+                            <i className="fa fa-facebook" />
                           </a>
                         </div>
                       </div>
-                      <div class="rotater">
-                        <div class="btn btn-icon">
-                          <a href="index.html#" title="">
-                            <i class="fa fa-google-plus" />
+                      <div className="rotater">
+                        <div className="btn btn-icon">
+                          <a href="/" title="">
+                            <i className="fa fa-google-plus" />
                           </a>
                         </div>
                       </div>
-                      <div class="rotater">
-                        <div class="btn btn-icon">
-                          <a href="index.html#" title="">
-                            <i class="fa fa-twitter" />
+                      <div className="rotater">
+                        <div className="btn btn-icon">
+                          <a href="/" title="">
+                            <i className="fa fa-twitter" />
                           </a>
                         </div>
                       </div>
-                      <div class="rotater">
-                        <div class="btn btn-icon">
-                          <a href="index.html#" title="">
-                            <i class="fa fa-css3" />
+                      <div className="rotater">
+                        <div className="btn btn-icon">
+                          <a href="/" title="">
+                            <i className="fa fa-css3" />
                           </a>
                         </div>
                       </div>
-                      <div class="rotater">
-                        <div class="btn btn-icon">
-                          <a href="index.html#" title="">
-                            <i class="fa fa-instagram" />
+                      <div className="rotater">
+                        <div className="btn btn-icon">
+                          <a href="/" title="">
+                            <i className="fa fa-instagram" />
                           </a>
                         </div>
                       </div>
-                      <div class="rotater">
-                        <div class="btn btn-icon">
-                          <a href="index.html#" title="">
-                            <i class="fa fa-dribbble" />
+                      <div className="rotater">
+                        <div className="btn btn-icon">
+                          <a href="/" title="">
+                            <i className="fa fa-dribbble" />
                           </a>
                         </div>
                       </div>
-                      <div class="rotater">
-                        <div class="btn btn-icon">
-                          <a href="index.html#" title="">
-                            <i class="fa fa-pinterest" />
+                      <div className="rotater">
+                        <div className="btn btn-icon">
+                          <a href="/" title="">
+                            <i className="fa fa-pinterest" />
                           </a>
                         </div>
                       </div>
                     </div>
                   </li>
+                  {attesters !== undefined ? (
+                    <span
+                      className="ti-plus main-menu btn btn-primary"
+                      data-ripple=""
+                      onClick={this.toggleCreate}
+                    >
+                      {!this.state.createOpen ? "New" : "Dismiss"} Claim
+                    </span>
+                  ) : (
+                    ""
+                  )}
                 </ul>
               </div>
             </div>
           </div>
-          <div class="coment-area">
-            <ul class="we-comet">
-              {reviewSection}
-              <li>
-                <a href="index.html#" title="" class="showmore underline">
-                  more Attestations
-                </a>
-              </li>{" "}
-            </ul>
+          <div className="coment-area">
+            {this.state.createOpen ? <Review claim={claim} /> : ""}
+            <ul className="we-comet">{reviewSection}</ul>
           </div>
         </div>
       </div>
@@ -147,14 +193,17 @@ class ClaimItem extends Component {
 }
 
 ClaimItem.propTypes = {
-  claim: PropTypes.object.isRequired
+  getProfileByHandle: PropTypes.func.isRequired,
+  claim: PropTypes.object.isRequired,
+  profile: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
-  auth: state.auth
+  auth: state.auth,
+  profile: state.profile
 });
 
 export default connect(
   mapStateToProps,
-  {}
+  { getProfileByHandle }
 )(ClaimItem);

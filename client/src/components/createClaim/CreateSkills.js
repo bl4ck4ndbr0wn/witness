@@ -1,10 +1,7 @@
 import React, { Component } from "react";
 import Select from "react-select";
-import { connect } from "react-redux";
-import { withRouter } from "react-router-dom";
-import PropTypes from "prop-types";
 
-import { createProfile } from "../../actions/profileAction";
+import { claim } from "../../actions/claimsActions";
 
 class CreateSkills extends Component {
   constructor() {
@@ -37,36 +34,33 @@ class CreateSkills extends Component {
     e.preventDefault();
 
     const { skills, witnesses, category } = this.state;
-    const profileData = {
+
+    let data = {
       content: skills,
       category,
+      ipfs_path: "",
       witnesses
     };
-
-    this.props.createClaim(profileData);
-    // this.props.createProfile(profileData, this.props.history);
+    claim(data);
   }
   render() {
     const { errors, skills } = this.state;
 
     const options = [
-      { label: "bobross", value: "bobross" },
-      { label: "janesmith", value: "janesmith" },
-      { label: "sampeters", value: "sampeters" },
-      { label: "willthompson", value: "willthompson" },
-      { label: "sarabrown", value: "sarabrown" },
-      { label: "lisawalters", value: "lisawalters" }
+      { label: "samooopeters", value: "samooopeters" },
+      { label: "alphangangaa", value: "alphangangaa" }
     ];
+
     return (
-      <div class="central-meta">
-        <div class="editing-interest">
-          <h5 class="f-title">
-            <i class="ti-heart" />
+      <div className="central-meta">
+        <div className="editing-interest">
+          <h5 className="f-title">
+            <i className="ti-heart" />
             My Skills
           </h5>
           <form onSubmit={this.onSubmit}>
             <label>Add Skills: </label>
-            <div class="form-group">
+            <div className="form-group">
               <input
                 id="input"
                 required="required"
@@ -76,27 +70,27 @@ class CreateSkills extends Component {
                 onChange={this.onChange}
                 error={errors.skills}
               />
-              <label class="control-label" for="input">
+              <label className="control-label" for="input">
                 Skills
               </label>
-              <i class="mtrl-select" />
+              <i className="mtrl-select" />
             </div>
-            <div class="form-group">
+            <div className="form-group">
               <Select
                 onChange={opt => this.handleSelectOnChange(opt)}
                 options={options}
                 isMulti
               />
-              <label class="control-label" for="input">
+              <label className="control-label" for="input">
                 Witnesses
               </label>
-              <i class="mtrl-select" />
+              <i className="mtrl-select" />
             </div>
-            <div class="submit-btns">
-              <button type="button" class="mtr-btn">
+            <div className="submit-btns">
+              <button type="button" className="mtr-btn">
                 <span>Cancel</span>
               </button>
-              <button type="submit" class="mtr-btn">
+              <button type="submit" className="mtr-btn">
                 <span>Update</span>
               </button>
             </div>
@@ -107,23 +101,4 @@ class CreateSkills extends Component {
   }
 }
 
-CreateSkills.propTypes = {
-  createClaim: PropTypes.func.isRequired
-};
-
 export default CreateSkills;
-
-// CreateSkills.propTypes = {
-//   profile: PropTypes.object.isRequired,
-//   errors: PropTypes.object.isRequired
-// };
-
-// const mapStateToProps = state => ({
-//   profile: state.profile,
-//   errors: state.errors
-// });
-
-// export default connect(
-//   mapStateToProps,
-//   { createProfile }
-// )(withRouter(CreateSkills));

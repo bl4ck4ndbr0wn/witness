@@ -4,12 +4,12 @@ export default function Footer() {
   return (
     <div>
       <footer>
-        <div class="container">
-          <div class="row">
-            <div class="col-lg-4 col-md-4">
-              <div class="widget">
-                <div class="foot-logo">
-                  <div class="logo">
+        <div className="container">
+          <div className="row">
+            <div className="col-lg-4 col-md-4">
+              <div className="widget">
+                <div className="foot-logo">
+                  <div className="logo">
                     <a href="index.html" title="">
                       <img
                         src="images/logo.png"
@@ -23,50 +23,50 @@ export default function Footer() {
                     blockchain
                   </p>
                 </div>
-                <ul class="location">
+                <ul className="location">
                   <li>
-                    <i class="ti-map-alt" />
+                    <i className="ti-map-alt" />
                     <p>123 A Wonderful Place of EOS</p>
                   </li>
                   <li>
-                    <i class="ti-mobile" />
+                    <i className="ti-mobile" />
                     <p>+1-56-346 345</p>
                   </li>
                 </ul>
               </div>
             </div>
-            <div class="col-lg-2 col-md-4">
-              <div class="widget">
-                <div class="widget-title">
+            <div className="col-lg-2 col-md-4">
+              <div className="widget">
+                <div className="widget-title">
                   <h4>follow</h4>
                 </div>
-                <ul class="list-style">
+                <ul className="list-style">
                   <li>
-                    <i class="fa fa-facebook-square" />{" "}
+                    <i className="fa fa-facebook-square" />{" "}
                     <a href="https://web.facebook.com/eoswitnessio/" target="_blank" title="">
                       facebook
                     </a>
                   </li>
                   <li>
-                    <i class="fa fa-twitter-square" />
+                    <i className="fa fa-twitter-square" />
                     <a href="https://twitter.com/eoswitnessio" target="_blank" title="">
                       twitter
                     </a>
                   </li>
                   <li>
-                    <i class="fa fa-instagram" />
+                    <i className="fa fa-instagram" />
                     <a href="https://www.instagram.com/?hl=en" target="_blank" title="">
                       instagram
                     </a>
                   </li>
                   <li>
-                    <i class="fa fa-google-plus-square" />{" "}
+                    <i className="fa fa-google-plus-square" />{" "}
                     <a href="https://plus.google.com/discover" target="_blank" title="">
                       Google+
                     </a>
                   </li>
                   <li>
-                    <i class="fa fa-pinterest-square" />{" "}
+                    <i className="fa fa-pinterest-square" />{" "}
                     <a href="https://www.pinterest.com/" target="_blank" title="">
                       Pintrest
                     </a>
@@ -74,12 +74,12 @@ export default function Footer() {
                 </ul>
               </div>
             </div>
-            <div class="col-lg-2 col-md-4">
-              <div class="widget">
-                <div class="widget-title">
+            <div className="col-lg-2 col-md-4">
+              <div className="widget">
+                <div className="widget-title">
                   <h4>Navigate</h4>
                 </div>
-                <ul class="list-style">
+                <ul className="list-style">
                   <li>
                     <a href="about.html" title="">
                       About Us
@@ -108,21 +108,21 @@ export default function Footer() {
                 </ul>
               </div>
             </div>
-            <div class="col-lg-2 col-md-4">
-              <div class="widget">
-                <div class="widget-title">
+            <div className="col-lg-2 col-md-4">
+              <div className="widget">
+                <div className="widget-title">
                   <h4>download apps</h4>
                 </div>
-                <ul class="colla-apps">
+                <ul className="colla-apps">
                   <li>
                     <a href="https://play.google.com/store?hl=en" title="">
-                      <i class="fa fa-android" />
+                      <i className="fa fa-android" />
                       android
                     </a>
                   </li>
                   <li>
                     <a href="https://www.apple.com/lae/ios/app-store/" title="">
-                      <i class="ti-apple" />
+                      <i className="ti-apple" />
                       iPhone
                     </a>
                   </li>
@@ -133,11 +133,11 @@ export default function Footer() {
         </div>
       </footer>
       {/* <!-- footer --> */}
-      <div class="bottombar">
-        <div class="container">
-          <div class="row">
-            <div class="col-md-12">
-              <span class="copyright">
+      <div className="bottombar">
+        <div className="container">
+          <div className="row">
+            <div className="col-md-12">
+              <span className="copyright">
                 © EOSwitness.io Series LLC 2018. All rights reserved.
               </span>
             </div>
