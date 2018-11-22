@@ -31,12 +31,12 @@ class App extends Component {
           <div className="theme-layout">
             <Header />
             <TopHeader />
-            <React.Fragment>
+            <Switch>
               <Route exact path="/" component={Dashboard} />
               <Route exact path="/dashboard" component={Dashboard} />
               <Route exact path="/profile/:handle" component={Profile} />
               <Route exact path="/not-found" component={NotFound} />
-            </React.Fragment>
+            </Switch>
 
             <Footer />
           </div>

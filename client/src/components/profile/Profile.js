@@ -52,7 +52,6 @@ class Profile extends Component {
       const education = claims.find(edu => edu.category === "Education");
       const experience = claims.find(edu => edu.category === "Experience");
       const skills = claims.find(edu => edu.category === "Skills");
-      console.log(education);
 
       switch (param) {
         case 0:

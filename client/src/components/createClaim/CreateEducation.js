@@ -3,6 +3,8 @@ import Select from "react-select";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import PropTypes from "prop-types";
+import fileReaderPullStream from "pull-file-reader";
+import ipfsAPI from "ipfs-api";
 
 import { claim } from "../../actions/claimsActions";
 
@@ -18,11 +20,14 @@ class CreateEducation extends Component {
       description: "",
       category: "Education",
       witnesses: [],
+      ipfs_path: "",
       errors: {}
     };
-
+    this.ipfsApi = ipfsAPI("localhost", "5001");
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
+    this.captureFile = this.captureFile.bind(this);
+    this.saveToIpfs = this.saveToIpfs.bind(this);
   }
 
   onChange(e) {
@@ -38,6 +43,64 @@ class CreateEducation extends Component {
     this.setState({ witnesses: [...newWitnesses] });
   };
 
+  captureFile(event) {
+    event.stopPropagation();
+    event.preventDefault();
+    const file = event.target.files[0];
+    if (document.getElementById("keepFilename").checked) {
+      this.saveToIpfsWithFilename(file);
+    } else {
+      this.saveToIpfs(file);
+    }
+  }
+
+  // Add file to IPFS and wrap it in a directory to keep the original filename
+  saveToIpfsWithFilename(file) {
+    let ipfsId;
+    const fileStream = fileReaderPullStream(file);
+    const fileDetails = {
+      path: file.name,
+      content: fileStream
+    };
+    const options = {
+      wrapWithDirectory: true,
+      progress: prog => console.log(`received: ${prog}`)
+    };
+    this.ipfsApi
+      .add(fileDetails, options)
+      .then(response => {
+        console.log(response);
+        // CID of wrapping directory is returned last
+        ipfsId = response[response.length - 1].hash;
+        console.log(ipfsId);
+
+        let ipfsLink = `https://ipfs.io/ipfs/${ipfsId}`;
+        this.setState({ ipfs_path: ipfsLink });
+      })
+      .catch(err => {
+        console.error(err);
+      });
+  }
+
+  // Add file to IPFS and return a CID
+  saveToIpfs(file) {
+    let ipfsId;
+    const fileStream = fileReaderPullStream(file);
+    this.ipfsApi
+      .add(fileStream, { progress: prog => console.log(`received: ${prog}`) })
+      .then(response => {
+        console.log(response);
+        ipfsId = response[0].hash;
+        console.log(ipfsId);
+
+        let ipfsLink = `https://ipfs.io/ipfs/${ipfsId}`;
+        this.setState({ ipfs_path: ipfsLink });
+      })
+      .catch(err => {
+        console.error(err);
+      });
+  }
+
   onSubmit(e) {
     e.preventDefault();
 
@@ -49,6 +112,7 @@ class CreateEducation extends Component {
       field,
       description,
       witnesses,
+      ipfs_path,
       category
     } = this.state;
 
@@ -63,7 +127,7 @@ class CreateEducation extends Component {
     let data = {
       content,
       category,
-      ipfs_path: "",
+      ipfs_path,
       witnesses
     };
     claim(data);
@@ -170,6 +234,14 @@ class CreateEducation extends Component {
                 Description
               </label>
               <i className="mtrl-select" />
+            </div>
+            <div className="form-group">
+              <input type="file" onChange={this.captureFile} />{" "}
+              <label for="keepFilename">
+                <input type="checkbox" id="keepFilename" name="keepFilename" />{" "}
+                keep filename
+              </label>
+              {this.state.ipfs_path}
             </div>
             <div className="form-group">
               {/* <label className="control-label" for="input">

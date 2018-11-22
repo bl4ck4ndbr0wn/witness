@@ -79,6 +79,36 @@ export const createProfile = (profileData, history) => dispatch => {
     );
 };
 
+// {
+//   followinguser: name,
+//   followuser: user.identity.accounts[0].name
+// };
+// Add Follow
+export const addFollow = data => dispatch => {
+  axios
+    .post(`${url}/profile/follow/${data.followuser}/${data.followinguser}`)
+    .then(res => dispatch(getProfileByHandle(data.followuser)))
+    .catch(err =>
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data
+      })
+    );
+};
+
+// Remove Follow
+export const removeFollow = data => dispatch => {
+  axios
+    .post(`${url}/profile/unfollow/${data.followuser}/${data.followinguser}`)
+    .then(res => dispatch(getProfileByHandle(data.followuser)))
+    .catch(err =>
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data
+      })
+    );
+};
+
 // Profile loading
 export const setProfileLoading = () => {
   return {

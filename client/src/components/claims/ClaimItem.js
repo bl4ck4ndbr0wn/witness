@@ -54,7 +54,16 @@ class ClaimItem extends Component {
     const reviewSection = claim.reviews.map(review => (
       <li>
         <div className="comet-avatar">
-          <img src="images/resources/comet-1.jpg" alt="" />
+          <img
+            src={
+              review.avatar
+                ? `http://localhost:4000/${review.avatar}`
+                : "images/resources/comet-1.jpg"
+            }
+            alt=""
+            width="45"
+            height="45"
+          />
         </div>
         <div className="we-comment">
           <div className="coment-head">
@@ -82,9 +91,9 @@ class ClaimItem extends Component {
             </figure>
             <div className="friend-name">
               <ins>
-                <a href="time-line.html" title="">
+                <Link to={`/profile/${claim._id.user}`} title="">
                   {claim._id.user}
-                </a>
+                </Link>
               </ins>
               <span>published: {claim._id.timestamp}</span>
             </div>
@@ -92,6 +101,7 @@ class ClaimItem extends Component {
               <div className="description">
                 <p>{claim.content}</p>
               </div>
+              <img src={claim.ipfs_path} alt="" />
               <div className="we-video-info">
                 <ul>
                   <li>
@@ -173,7 +183,9 @@ class ClaimItem extends Component {
                       data-ripple=""
                       onClick={this.toggleCreate}
                     >
-                      {!this.state.createOpen ? "New" : "Dismiss"} Claim
+                      {!this.state.createOpen
+                        ? "attest"
+                        : "Dismiss attestation"}
                     </span>
                   ) : (
                     ""

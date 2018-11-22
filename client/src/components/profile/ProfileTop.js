@@ -3,7 +3,11 @@ import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 
-import { documentUpload } from "../../actions/profileAction";
+import {
+  documentUpload,
+  addFollow,
+  removeFollow
+} from "../../actions/profileAction";
 
 class ProfileTop extends Component {
   constructor(props) {
@@ -43,8 +47,29 @@ class ProfileTop extends Component {
       );
     }
   }
+  onFollowClick(name) {
+    const { user } = this.props.auth;
+    this.props.addFollow({
+      followinguser: name,
+      followuser: user.identity.accounts[0].name
+    });
+  }
+
+  onUnFollowClick(name) {
+    const { user } = this.props.auth;
+
+    this.props.removeFollow({
+      followinguser: name,
+      followuser: user.identity.accounts[0].name
+    });
+  }
   render() {
     const { profile } = this.props.profile;
+
+    const follow = profile.folowers.filter(user => user.user === profile.user);
+
+    console.log(follow);
+
     return (
       <section>
         <div className="feature-photo">
@@ -99,7 +124,6 @@ class ProfileTop extends Component {
                   <ul>
                     <li className="admin-name">
                       <h5>{profile.user}</h5>
-                      <span>{profile.bio}</span>
                       <span>{profile.created_at}</span>
                     </li>
                     <li>
@@ -169,6 +193,28 @@ class ProfileTop extends Component {
                       >
                         Account Settings
                       </a>
+                      {follow ? (
+                        <a
+                          className="btn btn-primary mr-1"
+                          title=""
+                          data-ripple=""
+                          onClick={this.onFollowClick.bind(this, profile.user)}
+                        >
+                          Follow
+                        </a>
+                      ) : (
+                        <a
+                          className="btn btn-primary mr-1"
+                          title=""
+                          data-ripple=""
+                          onClick={this.onUnFollowClick.bind(
+                            this,
+                            profile.user
+                          )}
+                        >
+                          unFollow
+                        </a>
+                      )}
                     </li>
                   </ul>
                 </div>
@@ -183,6 +229,8 @@ class ProfileTop extends Component {
 
 ProfileTop.propTypes = {
   handleComponent: PropTypes.func.isRequired,
+  addFollow: PropTypes.func.isRequired,
+  removeFollow: PropTypes.func.isRequired,
   documentUpload: PropTypes.func.isRequired,
   profile: PropTypes.object.isRequired
 };
@@ -194,5 +242,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { documentUpload }
+  { documentUpload, addFollow, removeFollow }
 )(ProfileTop);

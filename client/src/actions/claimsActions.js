@@ -53,7 +53,7 @@ export const claim = data => {
     port: 443,
     chainId: "5fff1dae8dc8e2fc4d5b23b2c7665c97f9e9d8edf2b6485a86ba311c25639191"
   };
-  ScatterJS.scatter.connect("witness").then(connected => {
+  ScatterJS.scatter.connect("eosiowitness").then(connected => {
     // User does not have Scatter Desktop, Mobile or Classic installed.
     if (!connected) return false;
 
