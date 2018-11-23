@@ -37,7 +37,8 @@ class Dashboard extends Component {
                   </div>
 
                   <div className="col-lg-6">
-                    <div className="loadMore">{claimContent}</div>
+                    {claimContent}
+                    {/* <div className="loadMore"></div> */}
                   </div>
 
                   <div className="col-lg-3">
