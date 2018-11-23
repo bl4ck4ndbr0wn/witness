@@ -1,11 +1,13 @@
 import { Router } from "express";
 import multer from "multer";
 import {
-  currentUser,
+  followProfile,
+  unfollowProfile,
   getAll,
   getByuser,
   createProfile,
-  profilePhoto
+  profilePhoto,
+  allFollowers
 } from "../controller/profile";
 
 const storage = multer.diskStorage({
@@ -42,8 +44,11 @@ export default () => {
 
   api.get("/all", getAll);
   api.get("/user/:user", getByuser);
+  api.get("/followers/:id", allFollowers);
   api.post("/", createProfile);
   api.post("/photo/:user", upload.any("fileupload"), profilePhoto);
+  api.post("/follow/:user_id/:user", followProfile);
+  api.post("/unfollow/:user_id/:user", unfollowProfile);
 
   return api;
 };

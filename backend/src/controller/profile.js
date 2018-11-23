@@ -102,4 +102,71 @@ const createProfile = (req, res) => {
   });
 };
 
-export { getAll, getByuser, createProfile, profilePhoto };
+const followProfile = async (req, res) => {
+  const profile = await Profile.findOne({ user: req.params.user_id }).exec();
+  const userProfile = await Profile.findOne({
+    user: req.params.user
+  }).exec();
+
+  if (!userProfile)
+    return res.status(400).json({ unknown: "User Dows not exist" });
+
+  if (
+    profile.folowers.filter(folow => folow.user === req.params.user).length > 0
+  ) {
+    return res
+      .status(400)
+      .json({ alreadyFollowing: "User already follows the user" });
+  }
+  // Add user id to followers array
+  profile.folowers.unshift(userProfile);
+  const newprofile = await profile.save();
+  res.json(newprofile);
+};
+
+const unfollowProfile = async (req, res) => {
+  const profile = await Profile.findOne({ user: req.params.user_id }).exec();
+  const userProfile = await Profile.findOne({
+    user: req.params.user
+  }).exec();
+
+  if (!userProfile)
+    return res.status(400).json({ unknown: "User Dows not exist" });
+
+  if (
+    profile.folowers.filter(folow => folow.user === req.params.user).length ===
+    0
+  ) {
+    return res
+      .status(400)
+      .json({ notFollowing: "User not following this user" });
+  }
+  // Get remove index
+  const removeIndex = profile.folowers
+    .map(item => item.user)
+    .indexOf(req.params.user);
+  // Splice out of array
+  profile.folowers.splice(removeIndex, 1);
+  await profile.save().then(profile => res.json(profile));
+};
+
+const allFollowers = async (req, res) => {
+  const profile = await Profile.findById(req.params.id).exec();
+  if (profile.folowers.length === 0) {
+    return res
+      .status(400)
+      .json({ nofollowers: "User is not following anyone" });
+  }
+
+  res.json(profile.folowers);
+};
+
+export {
+  getAll,
+  getByuser,
+  createProfile,
+  profilePhoto,
+  followProfile,
+  unfollowProfile,
+  allFollowers
+};

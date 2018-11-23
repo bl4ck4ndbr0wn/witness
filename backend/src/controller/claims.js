@@ -2,10 +2,16 @@ import { Claim, Profile } from "../models";
 
 const getAll = async (req, res) => {
   try {
-    const claimConfimed = await Claim.find({
-      claimConfirmed: true
-    }).exec();
-    res.send(claimConfimed);
+    Claim.find({ claimConfirmed: true })
+      .sort({ created_on: -1 })
+      .then(claim => {
+        if (!claim) {
+          errors.noclaim = "There is no claim for this user";
+          res.status(404).json(errors);
+        }
+
+        res.send(claim);
+      });
   } catch (err) {
     res.status(404).json({ profile: "There are no Claims" });
   }
@@ -85,7 +91,8 @@ const reviewClaim = async (req, res) => {
             timestamp: req.body.timestamp,
             user: req.body.user
           },
-          user: profile._id,
+          user: req.body.reviewer,
+          avatar: profile.avatar,
           review: req.body.review,
           rating: req.body.rating,
           ipfs_path: req.body.ipfs_path,

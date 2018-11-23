@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 
 import { getProfileByHandle } from "../../actions/profileAction";
+import { gratitude } from "../../actions/gratitude";
 
 import Review from "./review/Review";
 
@@ -23,6 +24,12 @@ class ClaimItem extends Component {
     this.setState(prevState => ({
       createOpen: !prevState.createOpen
     }));
+  };
+
+  giveGratitude = e => {
+    e.preventDefault();
+
+    gratitude({ user: "user" });
   };
   render() {
     const { claim, auth, profile } = this.props;
@@ -78,6 +85,13 @@ class ClaimItem extends Component {
             </a>
           </div>
           <p>{review.review}</p>
+          <span
+            className="ti-money main-menu btn btn-primary"
+            data-ripple=""
+            onClick={this.giveGratitude}
+          >
+            gratitude
+          </span>
         </div>
       </li>
     ));

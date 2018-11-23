@@ -18,6 +18,7 @@ try {
       type: String
     },
     bio: String,
+    folowers: [],
     social: {
       youtube: {
         type: String

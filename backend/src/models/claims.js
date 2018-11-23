@@ -24,9 +24,9 @@ try {
           timestamp: Number,
           user: String
         },
-        user: {
-          type: Schema.Types.ObjectId,
-          ref: "Profile"
+        user: String,
+        avatar: {
+          type: String
         },
         review: String,
         rating: Number,
