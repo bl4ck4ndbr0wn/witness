@@ -1,15 +1,20 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
-export default function ShortCut() {
+export default function ShortCut({ auth }) {
+  const { isAuthenticated, loading, user } = auth;
+
+  console.log(auth);
+
   return (
     <div className="widget  stick-widget">
       <h4 className="widget-title">Shortcuts</h4>
       <ul className="naves">
         <li>
           <i className="ti-clipboard" />
-          <a href="newsfeed.html" title="">
-            News feed
-          </a>
+          <Link to={`/feeds/${user.identity.accounts[0].name}`} title="">
+            <i className="ti-user" /> Claim feed
+          </Link>
         </li>
 
         <li>

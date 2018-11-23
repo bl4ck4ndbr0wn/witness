@@ -2,20 +2,23 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import ShortCut from "./ShortCut";
+import ShortCut from "../dashboard/ShortCut";
 
-import RecentActivities from "./RecentActivities";
+import RecentActivities from "../dashboard/RecentActivities";
 import Spinner from "../common/Spinner";
 import ClaimsFeed from "../claims/ClaimsFeed";
 
-import { getClaims } from "../../actions/claimsActions";
-class Dashboard extends Component {
+import { getFollowerClaims } from "../../actions/claimsActions";
+class Feed extends Component {
   componentDidMount() {
-    this.props.getClaims();
+    if (this.props.match.params.handle) {
+      this.props.getFollowerClaims(this.props.match.params.handle);
+    }
   }
   render() {
     const { claims, loading } = this.props.claim;
-    console.log(this.props.auth);
+    const { user } = this.props.auth;
+
     let claimContent;
 
     if (claims === null || loading) {
@@ -84,8 +87,8 @@ class Dashboard extends Component {
   }
 }
 
-Dashboard.propTypes = {
-  getClaims: PropTypes.func.isRequired,
+Feed.propTypes = {
+  getFollowerClaims: PropTypes.func.isRequired,
   claim: PropTypes.object.isRequired,
   auth: PropTypes.object.isRequired,
   errors: PropTypes.object.isRequired
@@ -99,5 +102,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { getClaims }
-)(Dashboard);
+  { getFollowerClaims }
+)(Feed);

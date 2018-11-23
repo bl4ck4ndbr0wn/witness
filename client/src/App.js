@@ -9,6 +9,8 @@ import { logoutUser, setCurrentUser } from "./actions/authAction";
 import PrivateRoute from "./components/common/PrivateRoute";
 
 import Dashboard from "./components/dashboard/Dashboard";
+
+import Feed from "./components/feeds/Feed";
 import Profile from "./components/profile/Profile";
 import Header from "./components/layout/Header";
 import TopHeader from "./components/layout/TopHeader";
@@ -35,6 +37,7 @@ class App extends Component {
               <Route exact path="/" component={Dashboard} />
               <Route exact path="/dashboard" component={Dashboard} />
               <Route exact path="/profile/:handle" component={Profile} />
+              <Route exact path="/feeds/:handle" component={Feed} />
               <Route exact path="/not-found" component={NotFound} />
             </Switch>
 

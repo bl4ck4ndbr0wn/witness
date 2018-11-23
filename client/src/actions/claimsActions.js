@@ -43,6 +43,24 @@ export const getClaimsByHandle = handle => dispatch => {
     );
 };
 
+export const getFollowerClaims = handle => dispatch => {
+  dispatch(setClaimsLoading());
+  axios
+    .get(`${url}/claims//following/${handle}`)
+    .then(res =>
+      dispatch({
+        type: GET_CLAIMS,
+        payload: res.data
+      })
+    )
+    .catch(err =>
+      dispatch({
+        type: GET_CLAIMS,
+        payload: null
+      })
+    );
+};
+
 export const claim = data => {
   // Declare the type (EOS)
   ScatterJS.plugins(new ScatterEOS());

@@ -31,6 +31,19 @@ const getByuser = async (req, res) => {
   }
 };
 
+const followingClaims = async (req, res) => {
+  Profile.findOne({ user: req.params.user }).then(profile => {
+    const newClaimList = [];
+    profile.folowers.forEach(folower => {
+      Claim.find({ user: folower._id }).then(claims => {
+        Array.prototype.push.apply(newClaimList, claims);
+        res.json(newClaimList);
+      });
+    });
+    console.log(newClaimList);
+  });
+};
+
 const createClaim = (req, res) => {
   try {
     Claim.findOne({
@@ -109,4 +122,4 @@ const reviewClaim = async (req, res) => {
   }
 };
 
-export { getAll, createClaim, getByuser, reviewClaim };
+export { getAll, createClaim, getByuser, reviewClaim, followingClaims };
