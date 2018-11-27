@@ -1,13 +1,13 @@
-import { Router } from "express";
-import {
+const { Router } = require("express");
+const {
   getAll,
   createClaim,
   getByuser,
   reviewClaim,
   followingClaims
-} from "../controller/claims";
+} = require("../controller/claims");
 
-export default () => {
+module.exports = () => {
   let api = Router();
 
   api.get("/all", getAll);

@@ -105,7 +105,7 @@ class Profile extends Component {
                     <div className="col-lg-3">
                       <aside className="sidebar static">
                         <ProfileSocial />
-                        <ShortCut />
+                        {/* <ShortCut /> */}
                         <RecentActivities />
                       </aside>
                     </div>

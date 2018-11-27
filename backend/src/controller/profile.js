@@ -1,7 +1,7 @@
-import { Profile } from "../models";
-import Validator from "validator";
+const { Profile } = require("../models");
+const Validator = require("validator");
 
-import isEmpty from "../validation/is-empty";
+const isEmpty = require("../validation/is-empty");
 
 const getAll = async (req, res) => {
   try {
@@ -161,7 +161,7 @@ const allFollowers = async (req, res) => {
   res.json(profile.folowers);
 };
 
-export {
+module.exports = {
   getAll,
   getByuser,
   createProfile,

@@ -1,4 +1,4 @@
-import { Claim, Profile } from "../models";
+const { Claim, Profile } = require("../models");
 
 const getAll = async (req, res) => {
   try {
@@ -122,4 +122,10 @@ const reviewClaim = async (req, res) => {
   }
 };
 
-export { getAll, createClaim, getByuser, reviewClaim, followingClaims };
+module.exports = {
+  getAll,
+  createClaim,
+  getByuser,
+  reviewClaim,
+  followingClaims
+};

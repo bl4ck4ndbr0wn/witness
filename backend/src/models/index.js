@@ -1,5 +1,4 @@
-import BlockIndexState from "./block-index-state.model";
-import Profile from "./Profile";
-import Claim from "./claims";
+const Profile = require("./Profile");
+const Claim = require("./claims");
 
-export { BlockIndexState, Claim, Profile };
+module.exports = { Claim, Profile };

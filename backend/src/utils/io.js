@@ -1,4 +1,4 @@
-import socketIO from "socket.io";
+const socketIO = require("socket.io");
 
 let io = null;
 
@@ -8,7 +8,7 @@ const connect = server => {
 
 const getSocket = () => io;
 
-export default {
+module.exports = {
   connect,
   getSocket
 };

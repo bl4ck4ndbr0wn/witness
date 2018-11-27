@@ -1,6 +1,6 @@
-import { Router } from "express";
-import multer from "multer";
-import {
+const { Router } = require("express");
+const multer = require("multer");
+const {
   followProfile,
   unfollowProfile,
   getAll,
@@ -8,7 +8,7 @@ import {
   createProfile,
   profilePhoto,
   allFollowers
-} from "../controller/profile";
+} = require("../controller/profile");
 
 const storage = multer.diskStorage({
   destination: function(req, file, cb) {
@@ -39,7 +39,7 @@ const fileFilter = (req, file, cb) => {
 
 const upload = multer({ storage: storage });
 
-export default () => {
+module.exports = () => {
   let api = Router();
 
   api.get("/all", getAll);

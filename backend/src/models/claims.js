@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+const mongoose = require("mongoose");
 
 const { Schema } = mongoose;
 
@@ -55,4 +55,4 @@ try {
   Claim = mongoose.model("Claim");
 }
 
-export default Claim;
+module.exports = Claim;
